@@ -11,7 +11,7 @@ const Navigation = (): JSX.Element => {
   return (
     <>
       <div className='wrapper navigation-container'>
-        <span className='logo'>TriviMania</span>
+        <span className='logo'>TriviaMania</span>
         <div className='button-group'>
           <button>Login</button>
           <button

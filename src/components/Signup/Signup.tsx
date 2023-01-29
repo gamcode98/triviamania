@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import loaderGif from './../../assets/loader.gif'
 import { AuthenticationNavigation } from '../../types/AuthenticationNavigation'
 import { FormControl } from '../FormControl/FormControl'
+import './Signup.css'
 
 const schema = yup.object({
   email: yup
@@ -52,8 +53,8 @@ const Signup = (props: Props): JSX.Element => {
 
   return (
     isLoading
-      ? <img src={loaderGif} width={50} className='block mx-auto' />
-      : <form onSubmit={handleSubmit(onSubmit)}>
+      ? <img src={loaderGif} width={20} />
+      : <form onSubmit={handleSubmit(onSubmit)} className='form-signup'>
           <FormControl
             control={(control as unknown) as Control<FieldValues>}
             name='email'
@@ -73,17 +74,17 @@ const Signup = (props: Props): JSX.Element => {
           />
 
           <button
-            className='bg-black font-bold text-white p-2 rounded-md w-full mb-4 hover:-translate-y-0.5 ease-linear duration-100 will-change-transform '
+            className='nes-btn is-primary btn'
           >Create account
           </button>
 
-          <div className='flex gap-1 justify-center'>
-            <p className='text-center text-dark-gray'>Already have an account?</p>
+          <div className='has-account'>
+            <p className='paragraph'>Already have an account?</p>
             <button
               type='button'
-              className='text-green hover:underline decoration-1 '
+              className='nes-text is-primary go-to-login'
               onClick={changeToLogin}
-            > Log in
+            > Login
             </button>
           </div>
         </form>

@@ -15,7 +15,6 @@ const FormControl = (props: Props): JSX.Element => {
     <div className='form-control'>
       <label
         htmlFor={props.labelId}
-        className='block text-xs mb-2'
       >{props.labelText}
       </label>
       <input

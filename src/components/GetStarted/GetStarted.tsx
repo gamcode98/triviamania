@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { AuthenticationNavigation } from '../../types/AuthenticationNavigation'
+import { ModalAction } from '../../types/ModalAction'
+import { AccountCreatedMessage } from '../AccountCreatedMessage/AccountCreatedMessage'
 import { Authentication } from '../Authentication/Authentication'
+import { Login } from '../Login/Login'
 import { LoginWithGoogle } from '../LoginWithGoogle/LoginWithGoogle'
 import { Signup } from '../Signup/Signup'
 import './GetStarted.css'
-
-type ModalAction = 'open' | 'close' | null
 
 interface Props {
   setModalAction: React.Dispatch<React.SetStateAction<ModalAction>>
@@ -19,9 +20,9 @@ const GetStarted = (props: Props): JSX.Element => {
   const [authNavigation, setAuthNavigation] = useState<AuthenticationNavigation>('signup')
 
   const authentication = {
-    // login: <Login handleCloseModalBtn={handleCloseModalBtn} />,
-    signup: <Signup />
-    // accountCreatedMessage: <AccountCreatedMessage />,
+    login: <Login setModalAction={setModalAction} />,
+    signup: <Signup />,
+    accountCreatedMessage: <AccountCreatedMessage />
     // resetPassword: <ResetPassword />
   }
 
@@ -30,7 +31,7 @@ const GetStarted = (props: Props): JSX.Element => {
       <button className='close-modal-btn' onClick={() => setModalAction('close')}>
         <i className='nes-icon close is-small' />
       </button>
-      <LoginWithGoogle />
+      {!hideLoginWithGoogle && <LoginWithGoogle isLoading={isLoading} />}
       <Authentication
         isLoading={isLoading}
         setIsLoading={setIsLoading}

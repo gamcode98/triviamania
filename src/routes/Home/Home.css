@@ -1,9 +1,14 @@
+.hero-container {
+  margin-bottom: 2rem;
+}  
+
 @media screen and (min-width: 1024px) {
   .hero-container {
     display: flex;
     align-items: center;
     gap: 5rem;
     height: 80vh;
+    margin-bottom: initial;
   }  
 }
 
@@ -21,12 +26,12 @@
 .hero-container .paragraph {
   text-align: center;
   margin-bottom: 2rem;
+  line-height: 2rem;
 }
 
 @media screen and (min-width: 1024px) {
   .hero-container .paragraph {
     text-align: initial;
-    line-height: 2rem;
   }
 }
 
@@ -47,7 +52,17 @@
   margin-bottom: 2rem;
 }
 
+.hero-container .hero-img-container {
+  padding: 0;
+}
+
 .hero-container .hero-img {
-  border-radius: 2rem;
+  border-radius: .5rem;  
+}
+
+@media screen and (min-width: 1024px) {
+  .hero-container .hero-img {
+    width: 600px;
+  }
 }
 

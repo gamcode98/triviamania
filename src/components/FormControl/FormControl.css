@@ -1,0 +1,9 @@
+.form-control .input {
+  margin-bottom: .5rem;
+}
+
+.form-control .text-error {
+  color: var(--red);
+  font-size: .8rem;
+  margin-bottom: 0;
+}

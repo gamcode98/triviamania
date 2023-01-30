@@ -1,0 +1,13 @@
+.email-message {  
+  font-size: .9rem;
+}
+
+.email-message .paragraph {
+  line-height: 1.5rem;
+}
+
+.email-message .btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

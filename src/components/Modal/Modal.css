@@ -2,6 +2,18 @@
   position: fixed;
 }
 
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .modal {
+    width: 25%;
+  }
+}
+
 .nes-container.is-rounded {
   margin: auto;
 }

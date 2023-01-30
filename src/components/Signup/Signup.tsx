@@ -2,10 +2,10 @@
 import { Control, SubmitHandler, useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import loaderGif from './../../assets/loader.gif'
 import { AuthenticationNavigation } from '../../types/AuthenticationNavigation'
 import { FormControl } from '../FormControl/FormControl'
 import './Signup.css'
+import { Loader } from '../Loader/Loader'
 
 const schema = yup.object({
   email: yup
@@ -48,12 +48,12 @@ const Signup = (props: Props): JSX.Element => {
     setTimeout(() => {
       setIsLoading?.(false)
       setAuthNavigation?.('accountCreatedMessage')
-    }, 3000)
+    }, 10000)
   }
 
   return (
     isLoading
-      ? <img src={loaderGif} width={20} />
+      ? <Loader />
       : <form onSubmit={handleSubmit(onSubmit)} className='form-signup'>
           <FormControl
             control={(control as unknown) as Control<FieldValues>}

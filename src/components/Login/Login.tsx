@@ -3,11 +3,11 @@ import { Control, SubmitHandler, useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { FormControl } from '../FormControl/FormControl'
-import loaderGif from './../../assets/loader.gif'
 import { AuthenticationNavigation } from '../../types/AuthenticationNavigation'
 import { useNavigate } from 'react-router-dom'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import { ModalAction } from '../../types/ModalAction'
+import { Loader } from '../Loader/Loader'
 import './Login.css'
 
 const schema = yup.object({
@@ -69,7 +69,7 @@ const Login = (props: Props): JSX.Element => {
 
   return (
     isLoading
-      ? <img src={loaderGif} width={30} />
+      ? <Loader />
       : <form onSubmit={handleSubmit(onSubmit)} className='form-login'>
         <FormControl
           control={(control as unknown) as Control<FieldValues>}

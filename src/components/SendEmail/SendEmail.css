@@ -1,0 +1,14 @@
+.send-email .title {
+  margin-top: 1rem;
+}
+
+.send-email .btn {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.send-email .btn.cancel {
+  margin-bottom: 0;
+}

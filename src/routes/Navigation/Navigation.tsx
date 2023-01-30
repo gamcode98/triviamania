@@ -7,13 +7,24 @@ import { ModalAction } from '../../types/ModalAction'
 
 const Navigation = (): JSX.Element => {
   const [modalAction, setModalAction] = useState<ModalAction>(null)
+  const [loginIsPressed, setLoginIsPressed] = useState<boolean>(false)
+
+  const handleOpenModalToLogin = (isPressed?: boolean): void => {
+    if (isPressed) {
+      setLoginIsPressed(isPressed)
+      setModalAction('open')
+    }
+  }
 
   return (
     <>
       <div className='wrapper navigation-container'>
         <span className='logo'>TriviaMania</span>
         <div className='button-group'>
-          <button>Login</button>
+          <button
+            onClick={() => handleOpenModalToLogin(true)}
+          >Login
+          </button>
           <button
             type='button'
             className='nes-btn is-success'
@@ -23,7 +34,11 @@ const Navigation = (): JSX.Element => {
         </div>
       </div>
       <Modal modalAction={modalAction}>
-        <GetStarted setModalAction={setModalAction} />
+        <GetStarted
+          setModalAction={setModalAction}
+          setLoginIsPressed={setLoginIsPressed}
+          loginIsPressed={loginIsPressed}
+        />
       </Modal>
       <Outlet />
     </>

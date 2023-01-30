@@ -11,7 +11,7 @@ import './GetStarted.css'
 
 interface Props {
   loginIsPressed?: boolean
-  setLoginIsPressed: React.Dispatch<React.SetStateAction<boolean>>
+  setLoginIsPressed?: React.Dispatch<React.SetStateAction<boolean>>
   setModalAction: React.Dispatch<React.SetStateAction<ModalAction>>
 }
 
@@ -30,15 +30,19 @@ const GetStarted = (props: Props): JSX.Element => {
   }
 
   const handleCloseModal = (): void => {
+    setModalAction('close')
     setAuthNavigation('signup')
     setHideLoginWithGoogle(false)
-    setLoginIsPressed(false)
-    setModalAction('close')
+    setLoginIsPressed?.(false)
   }
 
   return (
     <div>
-      <button className='close-modal-btn' onClick={handleCloseModal}>
+      <button
+        disabled={isLoading}
+        className={`close-modal-btn ${isLoading && 'cursor-wait'}`}
+        onClick={handleCloseModal}
+      >
         <i className='nes-icon close is-small' />
       </button>
       {!hideLoginWithGoogle && <LoginWithGoogle isLoading={isLoading} />}

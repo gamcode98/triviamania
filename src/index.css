@@ -2,6 +2,8 @@
   --red: #ce372b;
   --blue: #209cee;
   --green: #92cc41;
+  --light-gray: #efefef;
+  --black: #212529;
 }
 
 body {
@@ -27,6 +29,10 @@ img {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.cursor-wait {
+  cursor: wait;
 }
 
 

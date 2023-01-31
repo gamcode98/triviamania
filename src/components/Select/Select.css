@@ -1,5 +1,6 @@
 @media screen and (min-width: 1024px) {
   .select-container { 
-    width: 20%;
+    /* width: 20%; */
+    width: 100%;
   }
 }

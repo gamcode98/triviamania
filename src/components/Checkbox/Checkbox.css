@@ -1,0 +1,17 @@
+.checkbox-container .checkbox-label {
+  display: block;
+}
+
+@media screen and (min-width: 1024px) {
+  .checkbox-container  {
+    width: 100%;    
+  }
+
+  .checkbox-container .checkbox-label {
+    margin-bottom: 1rem;
+  }
+
+  .checkbox-container .checkbox-label:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -1,5 +1,4 @@
 const categories = [
-  { label: 'Select...', value: 'Select...' },
   { label: 'Arts & Literature', value: 'arts_and_literature' },
   { label: 'Film & TV', value: 'film_and_tv' },
   { label: 'Food & Drink', value: 'food_and_drink' },
@@ -13,7 +12,7 @@ const categories = [
 ]
 
 const difficulty = [
-  { label: 'Select...', value: 'Select...' },
+  // { label: 'Select...', value: 'Select...' },
   { label: 'Easy', value: 'easy' },
   { label: 'Medium', value: 'medium' },
   { label: 'Hard', value: 'hard' }

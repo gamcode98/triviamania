@@ -12,7 +12,6 @@ const categories = [
 ]
 
 const difficulty = [
-  // { label: 'Select...', value: 'Select...' },
   { label: 'Easy', value: 'easy' },
   { label: 'Medium', value: 'medium' },
   { label: 'Hard', value: 'hard' }

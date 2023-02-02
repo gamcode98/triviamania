@@ -1,50 +1,107 @@
-import { useRef, useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { categories, difficulty } from '../../utils'
 import { Checkbox } from '../Checkbox/Checkbox'
 import { Select } from '../Select/Select'
+import { Range } from '../Range/Range'
+import { getQuestions } from '../../services'
+import { ISettings } from '../../interfaces/ISettings'
+import { IQuestions } from '../../interfaces/IQuestions'
 import './PlayForm.css'
+import { AxiosProgressEvent } from 'axios'
+import { useState } from 'react'
 
-const PlayForm = (): JSX.Element => {
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const badgeRef = useRef<HTMLDivElement | null>(null)
-  const [range, setRange] = useState<number>(1)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+interface Props {
+  setQuestions: React.Dispatch<React.SetStateAction<IQuestions[] | null>>
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-  const changeRange = (e?: any): void => {
-    setRange(Number(e.target.value))
-    if (inputRef.current !== null && badgeRef.current !== null) {
-      const w = parseInt(window.getComputedStyle(inputRef?.current, null).getPropertyValue('width'))
-      const pixels = w / 30
-      badgeRef.current.style.left = ((Number(inputRef.current.value) * pixels) + 30 + 'px')
-    }
+const schema = yup.object({
+  categories: yup
+    .array()
+    .of(yup.string())
+    .required()
+    .min(1, 'Must select at least one category'),
+  limit: yup
+    .number()
+    .required(),
+  difficulty: yup
+    .string()
+    .required('Must select difficulty')
+}).required()
+
+const PlayForm = (props: Props): JSX.Element => {
+  const { setQuestions, setIsLoading } = props
+  const [progress, setProgress] = useState<number>(0)
+
+  const { handleSubmit, control, reset } = useForm<ISettings>({
+    defaultValues: { categories: [], limit: 1, difficulty: '' },
+    resolver: yupResolver(schema),
+    mode: 'onChange'
+  })
+
+  const onSubmit: SubmitHandler<ISettings> = data => {
+    setIsLoading(true)
+
+    getQuestions(data,
+      (progressEvent: AxiosProgressEvent) => {
+        const { loaded, total } = progressEvent
+        if (total !== undefined) {
+          const percent = Math.round((loaded * 100) / total)
+          setProgress(percent)
+        }
+      }
+    )
+      .then(({ data }) => {
+        console.log({ data })
+        setQuestions(data)
+      })
+      .catch(({ error }) => {
+        console.log({ error })
+      })
+      .finally(() => {
+        reset()
+        setIsLoading(false)
+      })
   }
 
   return (
     <div className='play-form-container'>
       <div className='nes-container is-rounded '>
-        <form className='form-to-play'>
-          <h3>"Trivia Game Settings"</h3>
-          <Checkbox title='Categories' items={categories} />
-          <Select label='Difficulty' items={difficulty} />
-          <div className='input-range-container'>
-            <label className='label-text' htmlFor='limit-of-questions'>Select limit of questions</label>
-            <div ref={badgeRef} className='badge-container'>
-              <div className='nes-badge badge-size'>
-                <span className='is-success'>{range}</span>
-              </div>
-            </div>
-            <input
-              ref={inputRef}
-              type='range'
-              name='limit-of-questions'
-              id='limit-of-questions'
-              min={1} max={20} step={1}
-              value={range}
-              onChange={(e) => changeRange(e)}
+        <form className='form-to-play' onSubmit={handleSubmit(onSubmit)}>
+          <h3 className='title'>"Trivia Game Settings"</h3>
+          <div className='left-side'>
+            <Checkbox
+              control={(control as unknown) as Control<FieldValues>}
+              name='categories'
+              rules={{ required: true }}
+              title='Categories'
+              items={categories}
             />
           </div>
-          <button type='button' className='nes-btn is-primary'>Get me the questions</button>
+          <div className='right-side'>
+            <Select
+              control={(control as unknown) as Control<FieldValues>}
+              name='difficulty'
+              rules={{ required: true }}
+              label='Difficulty'
+              items={difficulty}
+            />
+            <Range
+              control={(control as unknown) as Control<FieldValues>}
+              name='limit'
+              rules={{ required: true }}
+              label='Select limit of questions'
+              min={1} max={20} step={1}
+            />
+            <button className='nes-btn is-primary'>Get me the questions</button>
+          </div>
         </form>
+      </div>
+      <div>
+        <span>Loading {progress}%</span>
+        <progress className='nes-progress is-success' value={progress} />
       </div>
     </div>
   )

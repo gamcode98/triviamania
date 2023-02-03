@@ -7,14 +7,13 @@ import { Select } from '../Select/Select'
 import { Range } from '../Range/Range'
 import { getQuestions } from '../../services'
 import { ISettings } from '../../interfaces/ISettings'
-import { IQuestions } from '../../interfaces/IQuestions'
-import './PlayForm.css'
 import { AxiosProgressEvent } from 'axios'
-import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './PlayForm.css'
 
 interface Props {
-  setQuestions: React.Dispatch<React.SetStateAction<IQuestions[] | null>>
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setProgress: React.Dispatch<React.SetStateAction<number>>
 }
 
 const schema = yup.object({
@@ -32,8 +31,9 @@ const schema = yup.object({
 }).required()
 
 const PlayForm = (props: Props): JSX.Element => {
-  const { setQuestions, setIsLoading } = props
-  const [progress, setProgress] = useState<number>(0)
+  const { setIsLoading, setProgress } = props
+
+  const navigate = useNavigate()
 
   const { handleSubmit, control, reset } = useForm<ISettings>({
     defaultValues: { categories: [], limit: 1, difficulty: '' },
@@ -54,8 +54,7 @@ const PlayForm = (props: Props): JSX.Element => {
       }
     )
       .then(({ data }) => {
-        console.log({ data })
-        setQuestions(data)
+        navigate('/playground', { state: data })
       })
       .catch(({ error }) => {
         console.log({ error })
@@ -98,10 +97,6 @@ const PlayForm = (props: Props): JSX.Element => {
             <button className='nes-btn is-primary'>Get me the questions</button>
           </div>
         </form>
-      </div>
-      <div>
-        <span>Loading {progress}%</span>
-        <progress className='nes-progress is-success' value={progress} />
       </div>
     </div>
   )

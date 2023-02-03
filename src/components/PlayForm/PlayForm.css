@@ -14,8 +14,7 @@
   .play-form-container  {
     gap: 2rem;
     align-items: center;
-    width: 90%;
-    border: 1px solid red;
+    width: 90%;    
   }
 }
 

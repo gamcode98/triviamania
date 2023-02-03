@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home } from './routes/Home/Home'
+import { LoadQuestions } from './routes/LoadQuestions/LoadQuestions'
 import { Navigation } from './routes/Navigation/Navigation'
 import { Playground } from './routes/Playground/Playground'
 
@@ -8,7 +9,8 @@ function App (): JSX.Element {
     <Routes>
       <Route path='/' element={<Navigation />}>
         {/* <Route path='/' element={<Home />} /> */}
-        <Route path='/' element={<Playground />} />
+        <Route path='/' element={<LoadQuestions />} />
+        <Route path='/playground' element={<Playground />} />
       </Route>
     </Routes>
   )

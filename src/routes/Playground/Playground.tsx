@@ -1,20 +1,17 @@
-import { useState } from 'react'
-import { PlayForm } from '../../components/PlayForm/PlayForm'
-import { IQuestions } from '../../interfaces/IQuestions'
+/* eslint-disable react/jsx-closing-tag-location */
+import { useLocation } from 'react-router-dom'
+import { Questions } from '../../components/Questions/Questions'
+import { IQuestion } from '../../interfaces/IQuestion'
 import './Playground.css'
 
 const Playground = (): JSX.Element => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [questions, setQuestions] = useState<IQuestions[] | null>(null)
+  const location = useLocation()
+  const questions: IQuestion[] = location.state
 
   return (
-    <main className='playground wrapper'>
-      <PlayForm
-        setQuestions={setQuestions}
-        setIsLoading={setIsLoading}
-      />
-
-    </main>
+    <div className='playground wrapper'>
+      <Questions questions={questions} />
+    </div>
   )
 }
 

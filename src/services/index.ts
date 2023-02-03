@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ICategories } from '../interfaces/ICategories'
-import { IQuestionsData } from '../interfaces/IQuestions'
+import { IQuestionsData } from '../interfaces/IQuestion'
 import { ISettings } from '../interfaces/ISettings'
 
 const baseURL: string = import.meta.env.VITE_DOMAIN_URL

@@ -1,4 +1,4 @@
-export interface IQuestions {
+export interface IQuestion {
   category: string
   id: string
   correctAnswer: string
@@ -12,5 +12,5 @@ export interface IQuestions {
 }
 
 export interface IQuestionsData {
-  data: IQuestions[]
+  data: IQuestion[]
 }

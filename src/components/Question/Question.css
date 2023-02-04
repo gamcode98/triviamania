@@ -5,3 +5,15 @@
 .question-container .question {
   margin-bottom: 1.5rem;
 }
+
+.question-container .is-success-container {
+  color: var(--green);
+}
+
+.question-container .is-error-container {
+  color: var(--red);
+}
+
+.question-container .is-bold {
+  font-weight: 600;
+}

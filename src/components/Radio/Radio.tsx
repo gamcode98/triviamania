@@ -1,4 +1,5 @@
 import { useController, UseControllerProps } from 'react-hook-form'
+import './Radio.css'
 
 interface Props extends UseControllerProps {
   answers: string[]
@@ -7,26 +8,16 @@ interface Props extends UseControllerProps {
 const Radio = (props: Props): JSX.Element => {
   const { answers } = props
 
-  const { field, fieldState } = useController(props)
+  const { field } = useController(props)
 
   const handleChange = (value: string): void => {
-    console.log({ value })
     field.onChange(value)
   }
 
   return (
     <>
-      {/* <label>
-        <input
-          type='radio'
-          className='nes-radio'
-          defaultChecked
-          // name={name}
-        />
-        <span>{answers[0]}</span>
-      </label> */}
       {answers.map(answer => (
-        <label key={answer}>
+        <label key={answer} className='label-radio'>
           <input
             type='radio'
             className='nes-radio'
@@ -36,7 +27,6 @@ const Radio = (props: Props): JSX.Element => {
           <span>{answer}</span>
         </label>
       ))}
-      {fieldState.invalid && <p className='text-error'>{fieldState.error?.message}</p>}
     </>
   )
 }

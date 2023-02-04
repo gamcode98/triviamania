@@ -4,10 +4,11 @@ import { Question } from '../Question/Question'
 interface Props {
   questions: IQuestionDto[]
   control: any
+  showReview: boolean
 }
 
 const Questions = (props: Props): JSX.Element => {
-  const { questions, control } = props
+  const { questions, control, showReview } = props
 
   return (
     <>
@@ -16,6 +17,7 @@ const Questions = (props: Props): JSX.Element => {
           key={question.id}
           question={question}
           control={control}
+          showReview={showReview}
         />
       ))}
     </>

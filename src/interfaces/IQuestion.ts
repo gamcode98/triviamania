@@ -17,4 +17,6 @@ export interface IQuestionsData {
 
 export interface IQuestionDto extends Pick<IQuestion, 'id' | 'question' | 'correctAnswer'> {
   answers: string[]
+  chosenAnswer: string | null
+  isOk: boolean | null
 }

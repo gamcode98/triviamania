@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { GetStarted } from '../../components/GetStarted/GetStarted'
 import { Modal } from '../../components/Modal/Modal'
 import { ModalAction } from '../../types/ModalAction'
-import heroImg from './../../assets/hero-1.gif'
+// import heroImg from './../../assets/hero-1.gif'
+import heroImg from './../../assets/hero-4.gif'
 import './Home.css'
 
 const Home = (): JSX.Element => {

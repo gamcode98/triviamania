@@ -1,17 +1,22 @@
-import { IQuestion } from '../../interfaces/IQuestion'
+import { IQuestionDto } from '../../interfaces/IQuestion'
 import { Question } from '../Question/Question'
 
 interface Props {
-  questions: IQuestion[]
+  questions: IQuestionDto[]
+  control: any
 }
 
 const Questions = (props: Props): JSX.Element => {
-  const { questions } = props
+  const { questions, control } = props
 
   return (
     <>
       {questions.map(question => (
-        <Question key={question.id} question={question} />
+        <Question
+          key={question.id}
+          question={question}
+          control={control}
+        />
       ))}
     </>
   )

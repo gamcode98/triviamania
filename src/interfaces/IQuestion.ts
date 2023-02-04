@@ -14,3 +14,7 @@ export interface IQuestion {
 export interface IQuestionsData {
   data: IQuestion[]
 }
+
+export interface IQuestionDto extends Pick<IQuestion, 'id' | 'question' | 'correctAnswer'> {
+  answers: string[]
+}

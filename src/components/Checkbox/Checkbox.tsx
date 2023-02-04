@@ -13,7 +13,7 @@ const Checkbox = (props: Props): JSX.Element => {
 
   const handleChange = (value: string): void => {
     field.value.includes(value)
-      ? field.onChange(field.value.filter((item: any) => item !== value))
+      ? field.onChange(field.value.filter((item: string) => item !== value))
       : field.onChange([...field.value, value])
   }
 

@@ -1,34 +1,43 @@
-interface Props {
-  name: string
+import { useController, UseControllerProps } from 'react-hook-form'
+
+interface Props extends UseControllerProps {
   answers: string[]
 }
 
 const Radio = (props: Props): JSX.Element => {
-  const { name, answers } = props
+  const { answers } = props
+
+  const { field, fieldState } = useController(props)
+
+  const handleChange = (value: string): void => {
+    console.log({ value })
+    field.onChange(value)
+  }
 
   return (
     <>
-      <label>
+      {/* <label>
         <input
           type='radio'
           className='nes-radio'
           defaultChecked
-          name={name}
+          // name={name}
         />
         <span>{answers[0]}</span>
-      </label>
+      </label> */}
       {answers.map(answer => (
         <label key={answer}>
           <input
             type='radio'
             className='nes-radio'
-            name={name}
+            onChange={() => handleChange(answer)}
+            checked={field.value === answer}
           />
           <span>{answer}</span>
         </label>
       ))}
+      {fieldState.invalid && <p className='text-error'>{fieldState.error?.message}</p>}
     </>
-
   )
 }
 

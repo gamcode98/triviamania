@@ -13,10 +13,12 @@ import './Playground.css'
 
 const Playground = (): JSX.Element => {
   const location = useLocation()
-  const questionsData: IQuestion[] = location.state
+  const { targetTime, data } = location.state
+  const questionsData: IQuestion[] = data
 
   const [modalAction, setModalAction] = useState<ModalAction>(null)
   const [showReview, setShowReview] = useState<boolean>(false)
+  const [timeOver, setTimeOver] = useState<boolean>(false)
   const [questions, setQuestions] = useState<IQuestionDto[]>(
     questionsData.map(item => ({
       id: item.id,
@@ -33,17 +35,10 @@ const Playground = (): JSX.Element => {
     totalAnswers: 0
   })
 
-  // const questions = questionsData.map(item => ({
-  //   id: item.id,
-  //   question: item.question,
-  //   correctAnswer: item.correctAnswer,
-  //   answers: [item.correctAnswer, ...item.incorrectAnswers].sort(() => 0.5 - Math.random())
-  // }))
-
-  // const defaultValues = questions.reduce<{ [key: string]: string }>((acumulator, item) => {
-  //   acumulator[`answer-${item.id}`] = item.answers[0]
-  //   return acumulator
-  // }, {})
+  useEffect(() => {
+    // TODO: fix this
+    (() => handleSubmit(onSubmit))()
+  }, [timeOver])
 
   const getDefaultValues = (): any => {
     const defaultValues = questions.reduce<{ [key: string]: string }>((acumulator, item) => {
@@ -59,10 +54,6 @@ const Playground = (): JSX.Element => {
   })
 
   const onSubmit: SubmitHandler<any> = data => {
-    // const dataParsed = Object.entries(data).map(([key, value]) => ({
-    //   [key.split('-')[1]]: value
-    // }))
-
     let dataParsed = {}
 
     Object.entries(data).forEach(([key, value]) => {
@@ -75,8 +66,6 @@ const Playground = (): JSX.Element => {
       isOk: dataParsed[item.id as keyof typeof dataParsed] === item.correctAnswer
     }))
 
-    console.log({ results })
-
     const correctAnswers = results.reduce((prev, element) => {
       const { isOk } = element
       return isOk ? prev + 1 : prev
@@ -84,30 +73,19 @@ const Playground = (): JSX.Element => {
 
     setQuestions(results)
 
-    console.log({ correctAnswers })
-
     setResult({
       percentage: Math.round(100 * correctAnswers / results.length),
       correctAnswers,
       totalAnswers: results.length
     })
 
-    // console.log({ percentage })
-
     setModalAction('open')
-
-    // const resultToObject = results.reduce<{ [key: string]: boolean }>((acumulator, item) => {
-    //   acumulator[`answer-${item.id}`] = item.isOk
-    //   return acumulator
-    // }, {})
-
-    // console.log({ resultToObject }, 'lengt: -> ')
   }
 
   return (
     <form className='playground wrapper' onSubmit={handleSubmit(onSubmit)}>
+      {targetTime !== null && <Countdown targetTime={targetTime} setTimeOver={setTimeOver} />}
       <Questions questions={questions} control={control} showReview={showReview} />
-      <Countdown targetTime={59} />
       <button type='submit' className='nes-btn is-primary'>Submit</button>
       <Modal modalAction={modalAction}>
         <ResultToPlayground result={result} setModalAction={setModalAction} setShowReview={setShowReview} />

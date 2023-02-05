@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import './Countdown.css'
 
 const formatTime = (time: number): string => {
   const minutes = Math.floor(time / 60).toString().padStart(2, '0')
@@ -8,10 +9,11 @@ const formatTime = (time: number): string => {
 
 interface Props {
   targetTime: number
+  setTimeOver: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Countdown = (props: Props): JSX.Element => {
-  const { targetTime } = props
+  const { targetTime, setTimeOver } = props
   const [countdown, setCountdown] = useState(targetTime)
 
   const timerId = useRef<any>()
@@ -26,14 +28,13 @@ const Countdown = (props: Props): JSX.Element => {
   useEffect(() => {
     if (countdown <= 0) {
       clearInterval(timerId.current)
-      // alert('End')
-      console.log('End!!')
+      setTimeOver(true)
     }
   }, [countdown])
 
   return (
-    <div>
-      <div>Countdown: {formatTime(countdown)} time is runing...</div>
+    <div className='nes-container countdown-container wrapper'>
+      <p>Countdown <span className='bold'>{formatTime(countdown)}</span></p>
     </div>
   )
 }

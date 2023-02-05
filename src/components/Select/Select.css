@@ -5,6 +5,49 @@
   margin-top: 1rem;
 }
 
+.select-container .select {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  position: relative;
+}
+
+.select-container .select-label {
+  margin-bottom: 0;
+}
+
+.select-container .question-img {
+  width: 40px;
+  height: 40px;
+}
+
+.select-container .help-container {  
+  position: absolute;
+  background-color: var(--white);
+  z-index: 1;
+  top: 2.5rem;
+  font-size: .8rem;
+  border: 4px solid var(--black);
+  padding: .5rem;
+  display: block;
+}
+
+.select-container .is-hidden {
+  display: none;
+}
+
+.select-container .help-container .list{
+  margin-bottom: 0;
+}
+
+.select-container .help-container .item{
+  margin-bottom: .8rem;
+}
+
+.select-container .help-container .item:last-child{
+  margin-bottom: 0;
+}
+
 @media screen and (min-width: 1024px) {
   .select-container { 
     width: 100%;

@@ -41,8 +41,18 @@ const PlayForm = (props: Props): JSX.Element => {
     mode: 'onChange'
   })
 
+  const countdownSettings = {
+    easy: () => null,
+    medium: (quantity: number): number => 120 * quantity,
+    hard: (quantity: number): number => 60 * quantity
+  }
+
   const onSubmit: SubmitHandler<ISettings> = data => {
     setIsLoading(true)
+
+    const result = countdownSettings[data.difficulty as keyof typeof countdownSettings]
+
+    const targetTime = result(data.limit)
 
     getQuestions(data,
       (progressEvent: AxiosProgressEvent) => {
@@ -54,7 +64,7 @@ const PlayForm = (props: Props): JSX.Element => {
       }
     )
       .then(({ data }) => {
-        navigate('/playground', { state: data })
+        navigate('/playground', { state: { targetTime, data } })
       })
       .catch(({ error }) => {
         console.log({ error })

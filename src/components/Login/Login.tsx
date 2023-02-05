@@ -63,7 +63,7 @@ const Login = (props: Props): JSX.Element => {
       setIsLoading?.(false)
       setCurrentUser({ _id: crypto.randomUUID(), email })
       setModalAction('close')
-      // navigate('/my-space')
+      navigate('/trivia-game-settings')
     }, 3000)
   }
 

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
+import { Countdown } from '../../components/Countdown/Countdown'
 import { Modal } from '../../components/Modal/Modal'
 import { Questions } from '../../components/Questions/Questions'
 import { ResultToPlayground } from '../../components/ResultToPlayground/ResultToPlayground'
@@ -106,6 +107,7 @@ const Playground = (): JSX.Element => {
   return (
     <form className='playground wrapper' onSubmit={handleSubmit(onSubmit)}>
       <Questions questions={questions} control={control} showReview={showReview} />
+      <Countdown targetTime={59} />
       <button type='submit' className='nes-btn is-primary'>Submit</button>
       <Modal modalAction={modalAction}>
         <ResultToPlayground result={result} setModalAction={setModalAction} setShowReview={setShowReview} />

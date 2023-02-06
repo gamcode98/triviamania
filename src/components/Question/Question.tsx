@@ -22,6 +22,7 @@ const Question = (props: Props): JSX.Element => {
         name={`answer-${question.id}`}
         control={(control as unknown) as Control<FieldValues>}
         rules={{ required: true }}
+        isDisabled={question.isOk}
       />
       {showReview &&
         <div className={`${question.isOk ? 'is-success-container' : 'is-error-container'}`}>

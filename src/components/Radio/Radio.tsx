@@ -3,10 +3,11 @@ import './Radio.css'
 
 interface Props extends UseControllerProps {
   answers: string[]
+  isDisabled: null | boolean
 }
 
 const Radio = (props: Props): JSX.Element => {
-  const { answers } = props
+  const { answers, isDisabled } = props
 
   const { field } = useController(props)
 
@@ -23,6 +24,7 @@ const Radio = (props: Props): JSX.Element => {
             className='nes-radio'
             onChange={() => handleChange(answer)}
             checked={field.value === answer}
+            disabled={isDisabled !== null}
           />
           <span>{answer}</span>
         </label>

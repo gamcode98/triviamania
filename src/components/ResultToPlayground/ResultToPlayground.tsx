@@ -7,16 +7,17 @@ interface Props {
   result: IResult
   setModalAction: React.Dispatch<React.SetStateAction<ModalAction>>
   setShowReview: React.Dispatch<React.SetStateAction<boolean>>
+  responseTime: string | null
 }
 
 const ResultToPlayground = (props: Props): JSX.Element => {
-  const { result, setModalAction, setShowReview } = props
+  const { result, setModalAction, setShowReview, responseTime } = props
 
   const navigate = useNavigate()
 
   const handlePlayAgain = (): void => {
     setModalAction('close')
-    navigate('/')
+    navigate('/trivia-game-settings')
   }
 
   const handleShowReview = (): void => {
@@ -36,7 +37,8 @@ const ResultToPlayground = (props: Props): JSX.Element => {
       <h3 className='title'>Result</h3>
       <ul className='nes-list is-disc'>
         <li>You got {result.percentage}% of 100%</li>
-        <li>you got {result.correctAnswers} answers out of {result.totalAnswers} right</li>
+        <li>You got {result.correctAnswers} answers out of {result.totalAnswers} right</li>
+        {responseTime !== null && <li>Time response {responseTime}</li>}
       </ul>
       <div className='button-container'>
         <button

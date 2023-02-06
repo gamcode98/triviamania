@@ -4,8 +4,10 @@ import { Modal } from '../../components/Modal/Modal'
 import { GetStarted } from '../../components/GetStarted/GetStarted'
 import { useState } from 'react'
 import { ModalAction } from '../../types/ModalAction'
+import useCurrentUser from '../../hooks/useCurrentUser'
 
 const Navigation = (): JSX.Element => {
+  const { currentUser } = useCurrentUser()
   const [modalAction, setModalAction] = useState<ModalAction>(null)
   const [loginIsPressed, setLoginIsPressed] = useState<boolean>(false)
 
@@ -20,18 +22,19 @@ const Navigation = (): JSX.Element => {
     <>
       <div className='wrapper navigation-container'>
         <span className='logo'>TriviaMania</span>
-        <div className='button-group'>
-          <button
-            onClick={() => handleOpenModalToLogin(true)}
-          >Login
-          </button>
-          <button
-            type='button'
-            className='nes-btn is-success'
-            onClick={() => setModalAction('open')}
-          >Get Started
-          </button>
-        </div>
+        {currentUser === null &&
+          <div className='button-group'>
+            <button
+              onClick={() => handleOpenModalToLogin(true)}
+            >Login
+            </button>
+            <button
+              type='button'
+              className='nes-btn is-success'
+              onClick={() => setModalAction('open')}
+            >Get Started
+            </button>
+          </div>}
       </div>
       <Modal modalAction={modalAction}>
         <GetStarted

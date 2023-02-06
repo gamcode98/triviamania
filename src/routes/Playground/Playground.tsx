@@ -1,24 +1,29 @@
 /* eslint-disable react/jsx-closing-tag-location */
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Countdown } from '../../components/Countdown/Countdown'
 import { Modal } from '../../components/Modal/Modal'
 import { Questions } from '../../components/Questions/Questions'
 import { ResultToPlayground } from '../../components/ResultToPlayground/ResultToPlayground'
 import { IQuestion, IQuestionDto } from '../../interfaces/IQuestion'
 import { IResult } from '../../interfaces/IResult'
+import { ITimeSettings } from '../../interfaces/ITimeSettings'
 import { ModalAction } from '../../types/ModalAction'
 import './Playground.css'
 
 const Playground = (): JSX.Element => {
   const location = useLocation()
+  const navigate = useNavigate()
   const { targetTime, data } = location.state
   const questionsData: IQuestion[] = data
 
   const [modalAction, setModalAction] = useState<ModalAction>(null)
   const [showReview, setShowReview] = useState<boolean>(false)
-  const [timeOver, setTimeOver] = useState<boolean>(false)
+  const [timeSettings, setTimeSettings] = useState<ITimeSettings>({
+    timeOver: false,
+    responseTime: null
+  })
   const [questions, setQuestions] = useState<IQuestionDto[]>(
     questionsData.map(item => ({
       id: item.id,
@@ -36,9 +41,8 @@ const Playground = (): JSX.Element => {
   })
 
   useEffect(() => {
-    // TODO: fix this
-    (() => handleSubmit(onSubmit))()
-  }, [timeOver])
+    if (timeSettings.timeOver) onSubmit(getValues())
+  }, [timeSettings.timeOver])
 
   const getDefaultValues = (): any => {
     const defaultValues = questions.reduce<{ [key: string]: string }>((acumulator, item) => {
@@ -48,7 +52,7 @@ const Playground = (): JSX.Element => {
     return defaultValues
   }
 
-  const { handleSubmit, control } = useForm<any>({
+  const { handleSubmit, control, getValues } = useForm<any>({
     defaultValues: getDefaultValues(),
     mode: 'onChange'
   })
@@ -73,6 +77,8 @@ const Playground = (): JSX.Element => {
 
     setQuestions(results)
 
+    setTimeSettings(prev => ({ ...prev, timeOver: true }))
+
     setResult({
       percentage: Math.round(100 * correctAnswers / results.length),
       correctAnswers,
@@ -82,13 +88,19 @@ const Playground = (): JSX.Element => {
     setModalAction('open')
   }
 
+  const goToTriviaGameSettings = (): void => {
+    navigate('/trivia-game-settings')
+  }
+
   return (
-    <form className='playground wrapper' onSubmit={handleSubmit(onSubmit)}>
-      {targetTime !== null && <Countdown targetTime={targetTime} setTimeOver={setTimeOver} />}
+    <form className='playground-container wrapper' onSubmit={handleSubmit(onSubmit)}>
+      {targetTime !== null && <Countdown targetTime={targetTime} timeSettings={timeSettings} setTimeSettings={setTimeSettings} />}
       <Questions questions={questions} control={control} showReview={showReview} />
-      <button type='submit' className='nes-btn is-primary'>Submit</button>
+      {showReview || modalAction !== null
+        ? <button type='button' className='nes-btn is-primary' onClick={goToTriviaGameSettings}>Play again</button>
+        : <button type='submit' className='nes-btn is-primary'>Submit</button>}
       <Modal modalAction={modalAction}>
-        <ResultToPlayground result={result} setModalAction={setModalAction} setShowReview={setShowReview} />
+        <ResultToPlayground result={result} setModalAction={setModalAction} setShowReview={setShowReview} responseTime={timeSettings.responseTime} />
       </Modal>
     </form>
   )

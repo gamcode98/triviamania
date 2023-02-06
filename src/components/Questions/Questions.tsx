@@ -1,5 +1,6 @@
 import { IQuestionDto } from '../../interfaces/IQuestion'
 import { Question } from '../Question/Question'
+import './Questions.css'
 
 interface Props {
   questions: IQuestionDto[]
@@ -11,7 +12,7 @@ const Questions = (props: Props): JSX.Element => {
   const { questions, control, showReview } = props
 
   return (
-    <>
+    <div className='questions-container'>
       {questions.map(question => (
         <Question
           key={question.id}
@@ -20,7 +21,7 @@ const Questions = (props: Props): JSX.Element => {
           showReview={showReview}
         />
       ))}
-    </>
+    </div>
   )
 }
 

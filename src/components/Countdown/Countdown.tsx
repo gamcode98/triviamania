@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { ITimeSettings } from '../../interfaces/ITimeSettings'
 import './Countdown.css'
 
 const formatTime = (time: number): string => {
@@ -9,26 +10,31 @@ const formatTime = (time: number): string => {
 
 interface Props {
   targetTime: number
-  setTimeOver: React.Dispatch<React.SetStateAction<boolean>>
+  timeSettings: ITimeSettings
+  setTimeSettings: React.Dispatch<React.SetStateAction<ITimeSettings>>
 }
 
 const Countdown = (props: Props): JSX.Element => {
-  const { targetTime, setTimeOver } = props
+  const { targetTime, timeSettings, setTimeSettings } = props
   const [countdown, setCountdown] = useState(targetTime)
 
   const timerId = useRef<any>()
 
   useEffect(() => {
-    timerId.current = setInterval(() => {
-      setCountdown(prev => prev - 1)
-    }, 1000)
-    return () => clearInterval(timerId.current)
-  }, [])
+    if (!timeSettings.timeOver) {
+      timerId.current = setInterval(() => {
+        setCountdown(prev => prev - 1)
+      }, 1000)
+      return () => clearInterval(timerId.current)
+    } else {
+      setTimeSettings(prev => ({ ...prev, responseTime: formatTime(countdown) }))
+    }
+  }, [timeSettings.timeOver])
 
   useEffect(() => {
     if (countdown <= 0) {
       clearInterval(timerId.current)
-      setTimeOver(true)
+      setTimeSettings(prev => ({ ...prev, timeOver: true, responseTime: formatTime(countdown) }))
     }
   }, [countdown])
 

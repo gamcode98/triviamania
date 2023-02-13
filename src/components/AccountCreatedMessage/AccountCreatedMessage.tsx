@@ -19,7 +19,7 @@ const AccountCreatedMessage = (props: Props): JSX.Element => {
       <h2 className='title'>Your account was <br /> created successfully</h2>
       <button
         onClick={backToLogin}
-        className='nes-text is-primary btn'
+        className='nes-text is-primary back-to-login'
       >Back to Log in
       </button>
     </div>

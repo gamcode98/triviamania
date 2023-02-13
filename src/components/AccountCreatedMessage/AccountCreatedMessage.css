@@ -4,9 +4,8 @@
   margin-bottom: 1rem;
 }
 
-.account-created-message .btn {
+.account-created-message .back-to-login {
   margin-left: auto;
   margin-right: auto;
-  display: block;
-  color: var(--blue);
+  display: block;  
 }

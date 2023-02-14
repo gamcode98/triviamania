@@ -3,6 +3,7 @@ import { Home } from './routes/Home/Home'
 import { LoadQuestions } from './routes/LoadQuestions/LoadQuestions'
 import { Navigation } from './routes/Navigation/Navigation'
 import { Playground } from './routes/Playground/Playground'
+import { Settings } from './routes/Settings/Settings'
 
 function App (): JSX.Element {
   return (
@@ -11,6 +12,7 @@ function App (): JSX.Element {
         <Route path='/' element={<Home />} />
         <Route path='/trivia-game-settings' element={<LoadQuestions />} />
         <Route path='/playground' element={<Playground />} />
+        <Route path='/settings' element={<Settings />} />
       </Route>
     </Routes>
   )

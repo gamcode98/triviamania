@@ -1,0 +1,8 @@
+.delete-account-container .title {
+  font-size: 1.2rem;
+}
+
+.delete-account-container .btn-container-actions {
+  display: flex;
+  gap: 1rem;  
+}

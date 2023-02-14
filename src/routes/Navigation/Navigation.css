@@ -58,15 +58,10 @@
   margin-bottom: 0;
 }
 
-.settings-img {
-  width: 30px;
-}
-
-.logout-img {
-  width: 30px;
-}
-
-.score-img {  
+.settings-img,
+.logout-img ,
+.score-img,
+.trivia-game-settings-img {
   width: 30px;
 }
 

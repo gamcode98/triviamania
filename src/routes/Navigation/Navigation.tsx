@@ -10,6 +10,7 @@ import arrowImg from './../../assets/arrow.png'
 import settingsImg from './../../assets/settings.png'
 import logoutImg from './../../assets/logout.png'
 import scoreImg from './../../assets/star.png'
+import joystickImg from './../../assets/joystick.png'
 import useCurrentUser from '../../hooks/useCurrentUser'
 
 const Navigation = (): JSX.Element => {
@@ -37,6 +38,16 @@ const Navigation = (): JSX.Element => {
     navigate('/')
   }
 
+  const handleNavigateToSettings = (): void => {
+    setMenuIsVisible(false)
+    navigate('/settings')
+  }
+
+  const handleNavigateToTriviaGameSettings = (): void => {
+    setMenuIsVisible(false)
+    navigate('/trivia-game-settings')
+  }
+
   return (
     <>
       <div className='wrapper navigation-container'>
@@ -61,20 +72,24 @@ const Navigation = (): JSX.Element => {
                   <img src={arrowImg} className={`${menuIsVisible ? 'arrow-img-rotate-up' : 'arrow-img-rotate-down'}`} />
                 </button>
               </div>
-            <ul className={`nes-container is-rounded menu-dropdown ${menuIsVisible ? 'is-visible' : 'menu-dropdown'}`}>
-              <li className='item'>
-                <img src={scoreImg} className='score-img' />
-                <span>Score</span>
-              </li>
-              <li className='item'>
-                <img src={settingsImg} className='settings-img' />
-                <span>Settings</span>
-              </li>
-              <li className='item' onClick={handleLogout}>
-                <img src={logoutImg} className='logout-img' />
-                <span>Log out</span>
-              </li>
-            </ul>
+              <ul className={`nes-container is-rounded menu-dropdown ${menuIsVisible ? 'is-visible' : 'menu-dropdown'}`}>
+                <li className='item'>
+                  <img src={scoreImg} className='score-img' />
+                  <span>Score</span>
+                </li>
+                <li className='item' onClick={handleNavigateToSettings}>
+                  <img src={settingsImg} className='settings-img' />
+                  <span>Settings</span>
+                </li>
+                <li className='item' onClick={handleNavigateToTriviaGameSettings}>
+                  <img src={joystickImg} className='trivia-game-settings-img' />
+                  <span>Trivia game settings</span>
+                </li>
+                <li className='item' onClick={handleLogout}>
+                  <img src={logoutImg} className='logout-img' />
+                  <span>Log out</span>
+                </li>
+              </ul>
             </div>}
       </div>
       <Modal modalAction={modalAction}>

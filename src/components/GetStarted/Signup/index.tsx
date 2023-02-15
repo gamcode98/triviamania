@@ -6,6 +6,7 @@ import { AuthenticationNavigation } from '../../../types'
 import { FormControl } from '../../FormElements/FormControl'
 import { Loader } from '../../Loader'
 import './Signup.css'
+import { signup } from '../../../services/signup'
 
 const schema = yup.object({
   email: yup
@@ -40,15 +41,19 @@ const Signup = (props: Props): JSX.Element => {
   })
 
   const onSubmit: SubmitHandler<IFormInputs> = data => {
-    const { email, password } = data
-    console.log({ email }, { password })
     setHideLoginWithGoogle?.(true)
     setIsLoading?.(true)
     reset()
-    setTimeout(() => {
-      setIsLoading?.(false)
-      setAuthNavigation?.('accountCreatedMessage')
-    }, 10000)
+
+    signup(data)
+      .then(({ data }) => {
+        console.log({ data })
+        setIsLoading?.(false)
+        setAuthNavigation?.('message')
+      })
+      .catch(({ error }) => {
+        console.log({ error })
+      })
   }
 
   return (

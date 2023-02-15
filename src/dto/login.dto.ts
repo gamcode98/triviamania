@@ -5,9 +5,9 @@ interface Response {
   token: string
 }
 
-export type UserDto = Omit<IUser, 'password'>
+export type UserDto = Omit<IUser, 'password' | 'createdAt' | 'updatedAt'>
 
-export type LoginDto = Omit<IUser, 'id'>
+export type LoginDto = Omit<IUser, '_id' | 'createdAt' | 'updatedAt'>
 
 interface Data extends IServerResponse {
   response: Response

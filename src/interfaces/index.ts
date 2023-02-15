@@ -1,3 +1,4 @@
+import { IBase } from './IBase'
 import { IAnswers } from './IAnswers'
 import { ICategories } from './ICategories'
 import { IQuestion, IQuestionDto, IQuestionsData } from './IQuestion'
@@ -9,6 +10,7 @@ import { IUser } from './IUser'
 import { IServerResponse } from './IServerResponse'
 
 export type {
+  IBase,
   IAnswers,
   ICategories,
   IQuestion,

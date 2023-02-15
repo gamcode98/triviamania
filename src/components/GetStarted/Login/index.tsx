@@ -9,6 +9,7 @@ import useCurrentUser from '../../../hooks/useCurrentUser'
 import { Loader } from '../../Loader'
 import './Login.css'
 import { login } from '../../../services/login'
+import { useLocalStorage } from '../../../hooks/useLocalStorage'
 
 const schema = yup.object({
   email: yup
@@ -34,6 +35,7 @@ interface IFormInputs {
 
 const Login = (props: Props): JSX.Element => {
   const { setHideLoginWithGoogle, isLoading, setIsLoading, setAuthNavigation, setModalAction } = props
+  const [, setToken] = useLocalStorage('token', '')
 
   const { setCurrentUser } = useCurrentUser()
 
@@ -53,29 +55,21 @@ const Login = (props: Props): JSX.Element => {
   })
 
   const onSubmit: SubmitHandler<IFormInputs> = data => {
-    const { email, password } = data
     setIsLoading?.(true)
     setHideLoginWithGoogle?.(true)
-    console.log({ email }, { password })
     reset()
     login(data)
       .then(({ data }) => {
-        console.log({ data })
         setHideLoginWithGoogle?.(false)
         setIsLoading?.(false)
-        setCurrentUser({ id: data.response.user.id, email: data.response.user.email })
+        setCurrentUser({ _id: data.response.user._id, email: data.response.user.email })
+        setToken(data.response.token)
         setModalAction('close')
+        navigate('/trivia-game-settings')
       })
       .catch(({ error }) => {
         console.log({ error })
       })
-    // setTimeout(() => {
-    //   setHideLoginWithGoogle?.(false)
-    //   setIsLoading?.(false)
-    // setCurrentUser({ id: crypto.randomUUID(), email })
-    //   setModalAction('close')
-    //   navigate('/trivia-game-settings')
-    // }, 3000)
   }
 
   return (

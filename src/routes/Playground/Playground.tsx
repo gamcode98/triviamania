@@ -9,6 +9,7 @@ import { ResultToPlayground } from '../../components/ResultToPlayground/ResultTo
 import { IQuestion, IQuestionDto } from '../../interfaces/IQuestion'
 import { IResult } from '../../interfaces/IResult'
 import { ITimeSettings } from '../../interfaces/ITimeSettings'
+import { saveResult } from '../../services/saveResult'
 import { ModalAction } from '../../types/ModalAction'
 import './Playground.css'
 
@@ -84,6 +85,24 @@ const Playground = (): JSX.Element => {
       correctAnswers,
       totalAnswers: results.length
     })
+
+    console.log({ result })
+
+    saveResult({
+      score: `${result.percentage}%`,
+      correctAnswers: result.correctAnswers,
+      incorrectAnswers: result.totalAnswers - result.correctAnswers,
+      numberOfQuestions: result.totalAnswers,
+      difficulty: 'hard',
+      categories: ['film_and_tv'],
+      responseTime: timeSettings.responseTime
+    })
+      .then(({ data }) => {
+        console.log({ data })
+      })
+      .catch((error) => {
+        console.log({ error })
+      })
 
     setModalAction('open')
   }

@@ -1,16 +1,11 @@
 /* eslint-disable react/jsx-indent */
 import './Navigation.css'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { Modal } from '../../components/Modal/Modal'
-import { GetStarted } from '../../components/GetStarted/GetStarted'
 import { useState } from 'react'
-import { ModalAction } from '../../types/ModalAction'
-import userImg from './../../assets/user.png'
-import arrowImg from './../../assets/arrow.png'
-import settingsImg from './../../assets/settings.png'
-import logoutImg from './../../assets/logout.png'
-import scoreImg from './../../assets/star.png'
-import joystickImg from './../../assets/joystick.png'
+import { Modal } from '../../components/Modal'
+import { GetStarted } from '../../components/GetStarted/GetStarted'
+import { arrowImg, joystickImg, logoutImg, scoreImg, settingsImg, userImg } from './../../components/Images'
+import { ModalAction } from '../../types/'
 import useCurrentUser from '../../hooks/useCurrentUser'
 
 const Navigation = (): JSX.Element => {

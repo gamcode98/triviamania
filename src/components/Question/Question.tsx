@@ -1,6 +1,6 @@
 import { Control, FieldValues } from 'react-hook-form'
 import { IQuestionDto } from '../../interfaces/IQuestion'
-import { Radio } from '../Radio/Radio'
+import { Radio } from '../FormElements/Radio'
 import './Question.css'
 
 interface Props {

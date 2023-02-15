@@ -8,3 +8,13 @@
 .settings-container .paragraph {
   margin-bottom: 0;
 }
+
+@media screen and (min-width: 1024px) {
+  .settings-container {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 4px solid var(--black);
+    padding: 2rem;
+  }
+}

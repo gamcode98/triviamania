@@ -3,7 +3,7 @@ import { Home } from './routes/Home/Home'
 import { LoadQuestions } from './routes/LoadQuestions/LoadQuestions'
 import { Navigation } from './routes/Navigation/Navigation'
 import { Playground } from './routes/Playground/Playground'
-import { Settings } from './routes/Settings/Settings'
+import { Settings } from './routes/Settings'
 
 function App (): JSX.Element {
   return (

@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { AuthenticationNavigation } from '../../types/AuthenticationNavigation'
-import { ModalAction } from '../../types/ModalAction'
-import { AccountCreatedMessage } from '../AccountCreatedMessage/AccountCreatedMessage'
-import { Authentication } from '../Authentication/Authentication'
-import { Login } from '../Login/Login'
-import { LoginWithGoogle } from '../LoginWithGoogle/LoginWithGoogle'
-import { ResetPassword } from '../ResetPassword/ResetPassword'
-import { Signup } from '../Signup/Signup'
+import { AuthenticationNavigation, ModalAction } from '../../types'
+import { Message } from './Message'
+import { Wrapper } from './Wrapper'
+import { Login } from './Login'
+import { LoginWithGoogle } from './LoginWithGoogle'
+import { ResetPassword } from './ResetPassword'
+import { Signup } from './Signup'
 import './GetStarted.css'
 
 interface Props {
@@ -25,7 +24,7 @@ const GetStarted = (props: Props): JSX.Element => {
   const authentication = {
     login: <Login setModalAction={setModalAction} />,
     signup: <Signup />,
-    accountCreatedMessage: <AccountCreatedMessage />,
+    message: <Message />,
     resetPassword: <ResetPassword />
   }
 
@@ -46,14 +45,14 @@ const GetStarted = (props: Props): JSX.Element => {
         <i className='nes-icon close is-small' />
       </button>
       {!hideLoginWithGoogle && <LoginWithGoogle isLoading={isLoading} />}
-      <Authentication
+      <Wrapper
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         setAuthNavigation={setAuthNavigation}
         setHideLoginWithGoogle={setHideLoginWithGoogle}
       >
         {authentication[authNavigation as keyof typeof authentication] || <Signup />}
-      </Authentication>
+      </Wrapper>
     </div>
   )
 }

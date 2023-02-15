@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-closing-tag-location */
 import { useState } from 'react'
 import { PlayForm } from '../../components/PlayForm/PlayForm'
-import { Progress } from '../../components/Progress/Progress'
+import { Progress } from '../../components/Progress'
 import './LoadQuestions.css'
 
 const LoadQuestions = (): JSX.Element => {

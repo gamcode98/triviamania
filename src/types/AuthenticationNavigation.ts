@@ -1,1 +1,1 @@
-export type AuthenticationNavigation = 'login' | 'signup' | 'resetPassword' | 'accountCreatedMessage'
+export type AuthenticationNavigation = 'login' | 'signup' | 'resetPassword' | 'message'

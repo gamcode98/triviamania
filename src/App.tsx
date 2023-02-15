@@ -3,6 +3,7 @@ import { Home } from './routes/Home/Home'
 import { LoadQuestions } from './routes/LoadQuestions/LoadQuestions'
 import { Navigation } from './routes/Navigation/Navigation'
 import { Playground } from './routes/Playground/Playground'
+import { Score } from './routes/Score/Score'
 import { Settings } from './routes/Settings'
 
 function App (): JSX.Element {
@@ -13,6 +14,7 @@ function App (): JSX.Element {
         <Route path='/trivia-game-settings' element={<LoadQuestions />} />
         <Route path='/playground' element={<Playground />} />
         <Route path='/settings' element={<Settings />} />
+        <Route path='/score' element={<Score />} />
       </Route>
     </Routes>
   )

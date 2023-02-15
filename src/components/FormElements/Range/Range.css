@@ -49,7 +49,7 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 input[type=range]::-webkit-slider-thumb {
-  background-image: url("./../../assets//green-ball.png");
+  background-image: url("./../../../assets/green-ball.png");
   background-size: contain;
   background-repeat: no-repeat;
   width: 50px;

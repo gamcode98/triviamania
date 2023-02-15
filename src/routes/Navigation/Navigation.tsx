@@ -43,6 +43,11 @@ const Navigation = (): JSX.Element => {
     navigate('/trivia-game-settings')
   }
 
+  const handleNavigateToScore = (): void => {
+    setMenuIsVisible(false)
+    navigate('/score')
+  }
+
   return (
     <>
       <div className='wrapper navigation-container'>
@@ -68,7 +73,7 @@ const Navigation = (): JSX.Element => {
                 </button>
               </div>
               <ul className={`nes-container is-rounded menu-dropdown ${menuIsVisible ? 'is-visible' : 'menu-dropdown'}`}>
-                <li className='item'>
+                <li className='item' onClick={handleNavigateToScore}>
                   <img src={scoreImg} className='score-img' />
                   <span>Score</span>
                 </li>

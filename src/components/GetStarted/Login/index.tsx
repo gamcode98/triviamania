@@ -8,6 +8,7 @@ import { AuthenticationNavigation, ModalAction } from '../../../types'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import { Loader } from '../../Loader'
 import './Login.css'
+import { login } from '../../../services/login'
 
 const schema = yup.object({
   email: yup
@@ -46,7 +47,7 @@ const Login = (props: Props): JSX.Element => {
   }
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: 'gabriel@gmail.com', password: '123okAsd@' },
     resolver: yupResolver(schema),
     mode: 'onChange'
   })
@@ -57,13 +58,24 @@ const Login = (props: Props): JSX.Element => {
     setHideLoginWithGoogle?.(true)
     console.log({ email }, { password })
     reset()
-    setTimeout(() => {
-      setHideLoginWithGoogle?.(false)
-      setIsLoading?.(false)
-      setCurrentUser({ _id: crypto.randomUUID(), email })
-      setModalAction('close')
-      navigate('/trivia-game-settings')
-    }, 3000)
+    login(data)
+      .then(({ data }) => {
+        console.log({ data })
+        setHideLoginWithGoogle?.(false)
+        setIsLoading?.(false)
+        setCurrentUser({ id: data.response.user.id, email: data.response.user.email })
+        setModalAction('close')
+      })
+      .catch(({ error }) => {
+        console.log({ error })
+      })
+    // setTimeout(() => {
+    //   setHideLoginWithGoogle?.(false)
+    //   setIsLoading?.(false)
+    // setCurrentUser({ id: crypto.randomUUID(), email })
+    //   setModalAction('close')
+    //   navigate('/trivia-game-settings')
+    // }, 3000)
   }
 
   return (

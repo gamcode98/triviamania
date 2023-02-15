@@ -6,6 +6,7 @@ import { ISelect } from './ISelect'
 import { ISettings } from './ISettings'
 import { ITimeSettings } from './ITimeSettings'
 import { IUser } from './IUser'
+import { IServerResponse } from './IServerResponse'
 
 export type {
   IAnswers,
@@ -17,5 +18,6 @@ export type {
   ISelect,
   ISettings,
   ITimeSettings,
-  IUser
+  IUser,
+  IServerResponse
 }

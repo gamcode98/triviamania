@@ -48,6 +48,8 @@ const PlayForm = (props: Props): JSX.Element => {
   }
 
   const onSubmit: SubmitHandler<ISettings> = data => {
+    const { categories, difficulty, limit } = data
+    const settings = { categories, difficulty, limit }
     setIsLoading(true)
 
     const result = countdownSettings[data.difficulty as keyof typeof countdownSettings]
@@ -64,7 +66,7 @@ const PlayForm = (props: Props): JSX.Element => {
       }
     )
       .then(({ data }) => {
-        navigate('/playground', { state: { targetTime, data } })
+        navigate('/playground', { state: { targetTime, settings, data } })
       })
       .catch(({ error }) => {
         console.log({ error })

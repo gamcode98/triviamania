@@ -1,22 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { formatTime } from '../../helpers/formatTime'
 import { ITimeSettings } from '../../interfaces/ITimeSettings'
 import './Countdown.css'
 
-const formatTime = (time: number): string => {
-  const minutes = Math.floor(time / 60).toString().padStart(2, '0')
-  const seconds = Math.floor(time - Number(minutes) * 60).toString().padStart(2, '0')
-  return minutes + ':' + seconds
-}
-
 interface Props {
-  targetTime: number
+  countdown: number
+  setCountdown: React.Dispatch<React.SetStateAction<number>>
   timeSettings: ITimeSettings
   setTimeSettings: React.Dispatch<React.SetStateAction<ITimeSettings>>
 }
 
 const Countdown = (props: Props): JSX.Element => {
-  const { targetTime, timeSettings, setTimeSettings } = props
-  const [countdown, setCountdown] = useState(targetTime)
+  const { countdown, setCountdown, timeSettings, setTimeSettings } = props
 
   const timerId = useRef<any>()
 

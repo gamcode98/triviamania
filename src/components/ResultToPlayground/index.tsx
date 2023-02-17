@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { ITimeSettings } from '../../interfaces'
 import { IResult } from '../../interfaces/IResult'
 import { ModalAction } from '../../types/ModalAction'
 import './ResultToPlayground.css'
@@ -7,11 +8,11 @@ interface Props {
   result: IResult
   setModalAction: React.Dispatch<React.SetStateAction<ModalAction>>
   setShowReview: React.Dispatch<React.SetStateAction<boolean>>
-  responseTime: string | null
+  timeSettings: ITimeSettings
 }
 
 const ResultToPlayground = (props: Props): JSX.Element => {
-  const { result, setModalAction, setShowReview, responseTime } = props
+  const { result, setModalAction, setShowReview, timeSettings } = props
 
   const navigate = useNavigate()
 
@@ -38,7 +39,7 @@ const ResultToPlayground = (props: Props): JSX.Element => {
       <ul className='nes-list is-disc'>
         <li>You got {result.percentage}% of 100%</li>
         <li>You got {result.correctAnswers} answers out of {result.totalAnswers} right</li>
-        {responseTime !== null && <li>Time response {responseTime}</li>}
+        {timeSettings.responseTime !== null && <li>Time response {timeSettings.responseTime}</li>}
       </ul>
       <div className='button-container'>
         <button

@@ -2,25 +2,26 @@
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Countdown } from '../../components/Countdown/Countdown'
+import { Countdown } from '../../components/Countdown'
 import { Modal } from '../../components/Modal'
 import { Questions } from '../../components/Questions/Questions'
-import { ResultToPlayground } from '../../components/ResultToPlayground/ResultToPlayground'
-import { IQuestion, IQuestionDto } from '../../interfaces/IQuestion'
-import { IResult } from '../../interfaces/IResult'
-import { ITimeSettings } from '../../interfaces/ITimeSettings'
+import { ResultToPlayground } from '../../components/ResultToPlayground'
+import { formatTime } from '../../helpers/formatTime'
+import { IQuestion, IQuestionDto, IResult, ITimeSettings } from '../../interfaces'
 import { saveResult } from '../../services/saveResult'
-import { ModalAction } from '../../types/ModalAction'
+import { ModalAction } from '../../types'
 import './Playground.css'
 
 const Playground = (): JSX.Element => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { targetTime, data } = location.state
+  const { targetTime, settings, data } = location.state
   const questionsData: IQuestion[] = data
 
   const [modalAction, setModalAction] = useState<ModalAction>(null)
   const [showReview, setShowReview] = useState<boolean>(false)
+  const [countdown, setCountdown] = useState(targetTime)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [timeSettings, setTimeSettings] = useState<ITimeSettings>({
     timeOver: false,
     responseTime: null
@@ -42,8 +43,8 @@ const Playground = (): JSX.Element => {
   })
 
   useEffect(() => {
-    if (timeSettings.timeOver) onSubmit(getValues())
-  }, [timeSettings.timeOver])
+    if (countdown === 0) onSubmit(getValues())
+  }, [countdown])
 
   const getDefaultValues = (): any => {
     const defaultValues = questions.reduce<{ [key: string]: string }>((acumulator, item) => {
@@ -81,30 +82,33 @@ const Playground = (): JSX.Element => {
     setTimeSettings(prev => ({ ...prev, timeOver: true }))
 
     setResult({
+      ...result,
       percentage: Math.round(100 * correctAnswers / results.length),
       correctAnswers,
       totalAnswers: results.length
     })
 
-    console.log({ result })
+    setIsLoading(true)
 
     saveResult({
-      score: `${result.percentage}%`,
-      correctAnswers: result.correctAnswers,
-      incorrectAnswers: result.totalAnswers - result.correctAnswers,
-      numberOfQuestions: result.totalAnswers,
-      difficulty: 'hard',
-      categories: ['film_and_tv'],
-      responseTime: timeSettings.responseTime
+      categories: settings.categories,
+      difficulty: settings.difficulty,
+      responseTime: formatTime(countdown),
+      score: `${Math.round(100 * correctAnswers / results.length)}%`,
+      numberOfQuestions: results.length,
+      incorrectAnswers: results.length - correctAnswers,
+      correctAnswers
     })
       .then(({ data }) => {
         console.log({ data })
+        setModalAction('open')
       })
-      .catch((error) => {
+      .catch(error => {
         console.log({ error })
       })
-
-    setModalAction('open')
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   const goToTriviaGameSettings = (): void => {
@@ -113,13 +117,39 @@ const Playground = (): JSX.Element => {
 
   return (
     <form className='playground-container wrapper' onSubmit={handleSubmit(onSubmit)}>
-      {targetTime !== null && <Countdown targetTime={targetTime} timeSettings={timeSettings} setTimeSettings={setTimeSettings} />}
-      <Questions questions={questions} control={control} showReview={showReview} />
+      {targetTime !== null &&
+        <Countdown
+          countdown={countdown}
+          setCountdown={setCountdown}
+          timeSettings={timeSettings}
+          setTimeSettings={setTimeSettings}
+        />}
+
+      <Questions
+        questions={questions}
+        control={control}
+        showReview={showReview}
+      />
+
       {showReview || modalAction !== null
-        ? <button type='button' className='nes-btn is-primary' onClick={goToTriviaGameSettings}>Play again</button>
-        : <button type='submit' className='nes-btn is-primary'>Submit</button>}
+        ? <button
+            type='button'
+            className='nes-btn is-primary'
+            onClick={goToTriviaGameSettings}
+          >Play again</button>
+        : <button
+            type='submit'
+            disabled={isLoading}
+            className={`nes-btn ${isLoading ? 'is-disabled' : 'is-primary'}`}
+          >{isLoading ? 'Saving...' : 'Submit'}</button>}
+
       <Modal modalAction={modalAction}>
-        <ResultToPlayground result={result} setModalAction={setModalAction} setShowReview={setShowReview} responseTime={timeSettings.responseTime} />
+        <ResultToPlayground
+          result={result}
+          setModalAction={setModalAction}
+          setShowReview={setShowReview}
+          timeSettings={timeSettings}
+        />
       </Modal>
     </form>
   )

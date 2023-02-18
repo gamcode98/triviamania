@@ -1,3 +1,4 @@
-.playground-container {
+.playgroundContainer {
   margin-bottom: 2rem;
+  border: 1px solid red;
 }

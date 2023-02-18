@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-indent */
-import './Navigation.css'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { Modal } from '../../components/Modal'
 import { GetStarted } from '../../components/GetStarted/GetStarted'
-import { arrowImg, joystickImg, logoutImg, scoreImg, settingsImg, userImg } from './../../components/Images'
-import { ModalAction } from '../../types/'
+import { arrowImg, joystickImg, logoutImg, scoreImg, settingsImg, userImg } from '../../components/Images'
+import { ModalAction } from '../../types'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import './Navigation.css'
 
 const Navigation = (): JSX.Element => {
   const { currentUser, setCurrentUser } = useCurrentUser()

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home } from './routes/Home/Home'
 import { LoadQuestions } from './routes/LoadQuestions/LoadQuestions'
-import { Navigation } from './routes/Navigation/Navigation'
+import { Navigation } from './routes/Navigation'
 import { Playground } from './routes/Playground/Playground'
 import { Score } from './routes/Score/Score'
 import { Settings } from './routes/Settings'

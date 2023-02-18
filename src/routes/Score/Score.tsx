@@ -1,4 +1,23 @@
+import { useEffect, useState } from 'react'
+import { Data } from '../../dto/result.dto'
+import { getResults } from '../../services/getResults'
+
 const Score = (): JSX.Element => {
+  const [nextUrl, setNextUrl] = useState<null | string>(null)
+  const [results, setResults] = useState<Data | null>(null)
+
+  useEffect(() => {
+    getResults()
+      .then(({ data }) => {
+        console.log({ data })
+
+        setResults(data)
+      })
+      .catch((error) => {
+        console.log({ error })
+      })
+  }, [])
+
   return (
     <div className='wrapper'>
       <div className='nes-table-responsive'>

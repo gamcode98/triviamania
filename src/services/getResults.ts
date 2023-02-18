@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IResultDto } from '../dto/result.dto'
+import { Data } from '../dto/result.dto'
 
 const baseURL: string = import.meta.env.VITE_BACKEND_URL
 
@@ -13,8 +13,15 @@ const getTokenStored = (): string => {
   return tokenParsed
 }
 
-const saveResult = async (data: IResultDto): Promise<any> => {
-  const url = `${baseURL}/results/save-result`
+interface FailedToken {
+  data: {
+    failed: boolean
+    message: string
+  }
+}
+
+const getResults = async (nextUrl?: string): Promise<Data | FailedToken> => {
+  const url = `${baseURL}/results/?limit=10&offset=0`
 
   const token = getTokenStored()
 
@@ -27,11 +34,11 @@ const saveResult = async (data: IResultDto): Promise<any> => {
     }
   }
 
-  return await instance.post(url, data, {
+  return await instance.get(url, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   })
 }
 
-export { saveResult }
+export { getResults }

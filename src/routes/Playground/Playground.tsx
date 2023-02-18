@@ -20,7 +20,7 @@ const Playground = (): JSX.Element => {
 
   const [modalAction, setModalAction] = useState<ModalAction>(null)
   const [showReview, setShowReview] = useState<boolean>(false)
-  const [countdown, setCountdown] = useState(targetTime)
+  const [countdown, setCountdown] = useState<number>(targetTime)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [timeSettings, setTimeSettings] = useState<ITimeSettings>({
     timeOver: false,

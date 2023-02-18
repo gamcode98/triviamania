@@ -1,17 +1,33 @@
 import axios from 'axios'
-import { ICategories, IQuestionsData, ISettings } from './../interfaces'
+import { IQuestionsData, ISettings } from './../interfaces'
+
+interface Headers {
+  headers: {
+    Authorization: string
+  }
+}
+
+interface Response {
+  data?: unknown
+  error?: unknown
+}
+
+export const getHeaders = (): Headers => {
+  return {
+    headers: {
+      Authorization: getAuthorization()
+    }
+  }
+}
+
+const getAuthorization = (): string => {
+  const token = localStorage.getItem('token')
+  return `Bearer ${token}`
+}
 
 const baseURL: string = import.meta.env.VITE_DOMAIN_URL
 
 const instance = axios.create({ baseURL })
-
-const getCategories = async (progressFn?: any): Promise<ICategories> => {
-  const url = `${baseURL}/categories`
-
-  return await instance.get(url, {
-    onDownloadProgress: progressFn
-  })
-}
 
 const getQuestions = async (settings: ISettings, progressFn?: any): Promise<IQuestionsData> => {
   const { categories, limit, difficulty } = settings
@@ -23,4 +39,4 @@ const getQuestions = async (settings: ISettings, progressFn?: any): Promise<IQue
     { onDownloadProgress: progressFn })
 }
 
-export { getCategories, getQuestions }
+export { getQuestions }

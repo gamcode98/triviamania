@@ -8,7 +8,8 @@ import { Questions } from '../../components/Questions/Questions'
 import { ResultToPlayground } from '../../components/ResultToPlayground'
 import { formatTime } from '../../helpers/formatTime'
 import { IQuestion, IQuestionDto, IResult, ITimeSettings } from '../../interfaces'
-import { saveResult } from '../../services/saveResult'
+import { IResultDto } from '../../dto/result.dto'
+import { post } from '../../services/privateApiService'
 import { ModalAction } from '../../types'
 import './Playground.css'
 
@@ -90,7 +91,7 @@ const Playground = (): JSX.Element => {
 
     setIsLoading(true)
 
-    saveResult({
+    post<IResultDto, unknown>('/results/save-result', {
       categories: settings.categories,
       difficulty: settings.difficulty,
       responseTime: formatTime(countdown),

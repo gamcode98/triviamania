@@ -7,9 +7,10 @@ import { FormControl } from '../../FormElements/FormControl'
 import { AuthenticationNavigation, ModalAction } from '../../../types'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import { Loader } from '../../Loader'
-import './Login.css'
-import { login } from '../../../services/login'
+import { post } from '../../../services/publicApiService'
 import { useLocalStorage } from '../../../hooks/useLocalStorage'
+import { Data } from '../../../dto/login.dto'
+import './Login.css'
 
 const schema = yup.object({
   email: yup
@@ -58,16 +59,17 @@ const Login = (props: Props): JSX.Element => {
     setIsLoading?.(true)
     setHideLoginWithGoogle?.(true)
     reset()
-    login(data)
-      .then(({ data }) => {
+    post<IFormInputs, Data>('/auth/login', data)
+      .then(data => {
+        const { user, token } = data.data.response
         setHideLoginWithGoogle?.(false)
         setIsLoading?.(false)
-        setCurrentUser({ _id: data.response.user._id, email: data.response.user.email })
-        setToken(data.response.token)
+        setCurrentUser(user)
+        setToken(token)
         setModalAction('close')
         navigate('/trivia-game-settings')
       })
-      .catch(({ error }) => {
+      .catch(error => {
         console.log({ error })
       })
   }

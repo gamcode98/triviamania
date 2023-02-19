@@ -6,7 +6,7 @@ import { AuthenticationNavigation } from '../../../types'
 import { FormControl } from '../../FormElements/FormControl'
 import { Loader } from '../../Loader'
 import './Signup.css'
-import { signup } from '../../../services/signup'
+import { post } from '../../../services/publicApiService'
 
 const schema = yup.object({
   email: yup
@@ -45,7 +45,7 @@ const Signup = (props: Props): JSX.Element => {
     setIsLoading?.(true)
     reset()
 
-    signup(data)
+    post('/auth/register', data)
       .then(({ data }) => {
         console.log({ data })
         setIsLoading?.(false)

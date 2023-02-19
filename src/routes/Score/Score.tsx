@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Data } from '../../dto/result.dto'
-import { getResults } from '../../services/getResults'
+import { Content, Data } from '../../dto/result.dto'
+import { get } from '../../services/privateApiService'
 
 const Score = (): JSX.Element => {
   const [nextUrl, setNextUrl] = useState<null | string>(null)
-  const [results, setResults] = useState<Data | null>(null)
+  const [results, setResults] = useState<Content[] | null>(null)
 
   useEffect(() => {
-    getResults()
-      .then(({ data }) => {
-        console.log({ data })
-
-        setResults(data)
+    get<Data>('/results/?limit=10&offset=0')
+      .then(({ data: { response } }) => {
+        console.log({ response })
+        // response.content
+        setResults(response.content)
       })
       .catch((error) => {
         console.log({ error })
@@ -34,24 +34,25 @@ const Score = (): JSX.Element => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>90%</td>
-              <td>7</td>
-              <td>1</td>
-              <td>8</td>
-              <td>
-                <div className='lists'>
-                  <ul className='nes-list is-disc'>
-                    <li>Good morning.</li>
-                    <li>Thou hast had a good night's sleep, I hope.</li>
-                    <li>Thou hast had a good afternoon</li>
-                    <li>Good night.</li>
-                  </ul>
-                </div>
-              </td>
-              <td>Hard</td>
-              <td>7:00</td>
-            </tr>
+            {results?.map(result => (
+              <tr key={result._id}>
+                <td>{result.score}</td>
+                <td>{result.correctAnswers}</td>
+                <td>{result.incorrectAnswers}</td>
+                <td>{result.numberOfQuestions}</td>
+                <td>
+                  <div className='lists'>
+                    <ul className='nes-list is-disc'>
+                      {result.categories.map((category, index) => (
+                        <li key={index}>{category}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </td>
+                <td>{result.difficulty}</td>
+                <td>{result.responseTime}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

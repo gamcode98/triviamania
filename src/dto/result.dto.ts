@@ -10,8 +10,16 @@ export interface IResultDto {
   difficulty: string
 }
 
-interface Content extends IResultDto, IBase {
+export interface Content extends IResultDto, IBase {
   userId: string
+}
+
+export interface Result {
+  response: {
+    content: Content[]
+    prevPage: null | string
+    nextPage: null | string
+  }
 }
 
 export interface Data extends IServerResponse {

@@ -1,18 +1,12 @@
-import axios from 'axios'
-import { IQuestionsData, ISettings } from './../interfaces'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 interface Headers {
   headers: {
-    Authorization: string
+    Authorization: string | undefined
   }
 }
 
-interface Response {
-  data?: unknown
-  error?: unknown
-}
-
-export const getHeaders = (): Headers => {
+const getHeaders = (): Headers => {
   return {
     headers: {
       Authorization: getAuthorization()
@@ -20,23 +14,44 @@ export const getHeaders = (): Headers => {
   }
 }
 
-const getAuthorization = (): string => {
-  const token = localStorage.getItem('token')
-  return `Bearer ${token}`
+const getAuthorization = (): string | undefined => {
+  const tokenStored = localStorage.getItem('token')
+  if (tokenStored !== null) {
+    const tokenParsed: string = JSON.parse(tokenStored)
+    return `Bearer ${tokenParsed}`
+  }
 }
 
-const baseURL: string = import.meta.env.VITE_DOMAIN_URL
-
-const instance = axios.create({ baseURL })
-
-const getQuestions = async (settings: ISettings, progressFn?: any): Promise<IQuestionsData> => {
-  const { categories, limit, difficulty } = settings
-
-  const stringOfCategories = categories.join()
-
-  return await instance.get(
-    `/questions?categories=${stringOfCategories}&limit=${limit}&difficulty=${difficulty}`,
-    { onDownloadProgress: progressFn })
+const handleResponse = (response: AxiosResponse): AxiosResponse => {
+  return response
 }
 
-export { getQuestions }
+const handleError = (error: AxiosError): never => {
+  if (error.response) {
+    // Request made and server responded
+    console.log(error.response.data)
+    console.log(error.response.status)
+    console.log(error.response.headers)
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.log(error.request)
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.log('Error', error.message)
+  }
+  throw error
+}
+
+const triviaUrl: string = import.meta.env.VITE_DOMAIN_URL
+const backendUrl: string = import.meta.env.VITE_BACKEND_URL
+
+const triviaApi = axios.create({ baseURL: triviaUrl })
+const backendApi = axios.create({ baseURL: backendUrl })
+
+export {
+  getHeaders,
+  handleError,
+  handleResponse,
+  backendApi,
+  triviaApi
+}

@@ -10,7 +10,7 @@ const post = async <T, U>(url: Url, data: T): Promise<AxiosResponse<U>> => {
     .catch(handleError)
 }
 
-const get = async <T>(url: Url): Promise<AxiosResponse<T>> => {
+const get = async <T>(url: string): Promise<AxiosResponse<T>> => {
   return await
   backendApi.get(url, getHeaders())
     .then(handleResponse)

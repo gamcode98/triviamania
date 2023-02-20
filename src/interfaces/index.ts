@@ -7,6 +7,7 @@ import { ISelect } from './ISelect'
 import { ISettings } from './ISettings'
 import { ITimeSettings } from './ITimeSettings'
 import { IUser } from './IUser'
+import { IAlert } from './IAlert'
 import { IServerResponse } from './IServerResponse'
 
 export type {
@@ -21,5 +22,6 @@ export type {
   ISettings,
   ITimeSettings,
   IUser,
+  IAlert,
   IServerResponse
 }

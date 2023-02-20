@@ -1,26 +1,57 @@
 import { useEffect, useState } from 'react'
 import { Content, Data } from '../../dto/result.dto'
 import { get } from '../../services/privateApiService'
+import './Score.css'
+
+interface Url {
+  previousUrl: null | string
+  nextUrl: null | string
+}
 
 const Score = (): JSX.Element => {
-  const [nextUrl, setNextUrl] = useState<null | string>(null)
   const [results, setResults] = useState<Content[] | null>(null)
+  const [pagination, setPagination] = useState<Url>({
+    previousUrl: null,
+    nextUrl: null
+  })
 
   useEffect(() => {
-    get<Data>('/results/?limit=10&offset=0')
+    getResults('/results/?limit=10&offset=0')
+  }, [])
+
+  const getResults = (url: string): void => {
+    get<Data>(url)
       .then(({ data: { response } }) => {
-        console.log({ response })
-        // response.content
+        if (response.nextPage !== 'null') {
+          setPagination(prev => ({ ...prev, nextUrl: response.nextPage }))
+        } else {
+          setPagination(prev => ({ ...prev, nextUrl: null }))
+        }
+
+        if (response.prevPage !== 'null') {
+          setPagination(prev => ({ ...prev, previousUrl: response.prevPage }))
+        } else {
+          setPagination(prev => ({ ...prev, previousUrl: null }))
+        }
+
         setResults(response.content)
       })
       .catch((error) => {
         console.log({ error })
       })
-  }, [])
+  }
+
+  const handlePreviousResults = (previousUrl: string): void => {
+    getResults(previousUrl)
+  }
+
+  const handleNextResults = (nextUrl: string): void => {
+    getResults(nextUrl)
+  }
 
   return (
-    <div className='wrapper'>
-      <div className='nes-table-responsive'>
+    <div className='score-container wrapper'>
+      <div className='nes-table-responsive score-table'>
         <table className='nes-table is-bordered is-centered'>
           <thead>
             <tr>
@@ -55,6 +86,22 @@ const Score = (): JSX.Element => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className='btn-container'>
+        {pagination.previousUrl !== null &&
+          <button
+            type='button'
+            className='nes-btn is-primary'
+            onClick={() => handlePreviousResults(pagination.previousUrl)}
+          >Previous
+          </button>}
+        {pagination.nextUrl !== null &&
+          <button
+            type='button'
+            className='nes-btn is-primary'
+            onClick={() => handleNextResults(pagination.nextUrl)}
+          >Next
+          </button>}
       </div>
     </div>
   )

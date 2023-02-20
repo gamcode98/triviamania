@@ -1,12 +1,19 @@
 import { useState } from 'react'
+import { Alert } from '../../components/Alert'
 import { GetStarted } from '../../components/GetStarted/GetStarted'
 import { Modal } from '../../components/Modal'
+import { IAlert } from '../../interfaces'
 import { ModalAction } from '../../types/ModalAction'
 import { heroImg } from './../../components/Images'
 import './Home.css'
 
 const Home = (): JSX.Element => {
   const [modalAction, setModalAction] = useState<ModalAction>(null)
+  const [alert, setAlert] = useState<IAlert>({
+    show: false,
+    status: 'success',
+    message: ''
+  })
 
   return (
     <main className='wrapper'>
@@ -26,8 +33,12 @@ const Home = (): JSX.Element => {
         </div>
       </section>
       <Modal modalAction={modalAction}>
-        <GetStarted setModalAction={setModalAction} />
+        <GetStarted
+          setModalAction={setModalAction}
+          setAlert={setAlert}
+        />
       </Modal>
+      <Alert alert={alert} setAlert={setAlert} />
     </main>
   )
 }

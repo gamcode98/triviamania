@@ -2,11 +2,13 @@
 import { Control, SubmitHandler, useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { AuthenticationNavigation } from '../../../types'
+import { AuthenticationNavigation, ModalAction } from '../../../types'
 import { FormControl } from '../../FormElements/FormControl'
 import { Loader } from '../../Loader'
-import './Signup.css'
 import { post } from '../../../services/publicApiService'
+import { Data } from './../../../dto/signup.dto'
+import { IAlert } from '../../../interfaces'
+import './Signup.css'
 
 const schema = yup.object({
   email: yup
@@ -22,6 +24,8 @@ interface Props {
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>
   setHideLoginWithGoogle?: React.Dispatch<React.SetStateAction<boolean>>
   setAuthNavigation?: React.Dispatch<React.SetStateAction<AuthenticationNavigation>>
+  setAlert?: React.Dispatch<React.SetStateAction<IAlert>>
+  setModalAction?: React.Dispatch<React.SetStateAction<ModalAction>>
 }
 
 interface IFormInputs {
@@ -30,12 +34,12 @@ interface IFormInputs {
 }
 
 const Signup = (props: Props): JSX.Element => {
-  const { isLoading, setIsLoading, setHideLoginWithGoogle, setAuthNavigation } = props
+  const { isLoading, setIsLoading, setHideLoginWithGoogle, setAuthNavigation, setAlert, setModalAction } = props
 
   const changeToLogin = (): void => setAuthNavigation?.('login')
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '', password: '123okAsd@' },
     resolver: yupResolver(schema),
     mode: 'onChange'
   })
@@ -45,14 +49,17 @@ const Signup = (props: Props): JSX.Element => {
     setIsLoading?.(true)
     reset()
 
-    post('/auth/register', data)
-      .then(({ data }) => {
-        console.log({ data })
-        setIsLoading?.(false)
+    post<IFormInputs, Data>('/auth/register', data)
+      .then(() => {
         setAuthNavigation?.('message')
       })
-      .catch(({ error }) => {
-        console.log({ error })
+      .catch((error) => {
+        setAlert?.({ status: 'error', message: error.response.data.message, show: true })
+        setHideLoginWithGoogle?.(false)
+        setModalAction?.('close')
+      })
+      .finally(() => {
+        setIsLoading?.(false)
       })
   }
 

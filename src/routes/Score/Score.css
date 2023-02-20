@@ -1,0 +1,8 @@
+.score-container .score-table {
+  margin-bottom: 1rem;
+}
+.score-container .btn-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}

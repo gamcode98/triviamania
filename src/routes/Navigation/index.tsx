@@ -7,12 +7,19 @@ import { arrowImg, joystickImg, logoutImg, scoreImg, settingsImg, userImg } from
 import { ModalAction } from '../../types'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import './Navigation.css'
+import { Alert } from '../../components/Alert'
+import { IAlert } from '../../interfaces'
 
 const Navigation = (): JSX.Element => {
   const { currentUser, setCurrentUser } = useCurrentUser()
   const [modalAction, setModalAction] = useState<ModalAction>(null)
   const [loginIsPressed, setLoginIsPressed] = useState<boolean>(false)
   const [menuIsVisible, setMenuIsVisible] = useState<boolean>(false)
+  const [alert, setAlert] = useState<IAlert>({
+    show: false,
+    status: 'success',
+    message: ''
+  })
 
   const navigate = useNavigate()
 
@@ -97,8 +104,10 @@ const Navigation = (): JSX.Element => {
           setModalAction={setModalAction}
           setLoginIsPressed={setLoginIsPressed}
           loginIsPressed={loginIsPressed}
+          setAlert={setAlert}
         />
       </Modal>
+      <Alert alert={alert} setAlert={setAlert} />
       <Outlet />
     </>
   )

@@ -1,0 +1,16 @@
+.alert {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;  
+  display: block;
+  min-width: 300px;  
+  max-width: 500px;
+}
+
+.block {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}

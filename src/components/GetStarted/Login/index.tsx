@@ -11,14 +11,22 @@ import { post } from '../../../services/publicApiService'
 import { useLocalStorage } from '../../../hooks/useLocalStorage'
 import { Data } from '../../../dto/login.dto'
 import './Login.css'
+import { IAlert } from '../../../interfaces'
 
 const schema = yup.object({
   email: yup
     .string()
-    .required(),
+    .required()
+    .matches(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, 'Must be a valid email address'),
   password: yup
     .string()
+    .min(7, 'Too Short!')
+    .max(17, 'Too Long!')
     .required()
+    .matches(
+      /^(?=.*?[A-ZÀ-Ú])(?=.*?[a-zà-ú])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+      'Must contain at least one upper case letter, one lower case letter, one number and one special character'
+    )
 }).required()
 
 interface Props {
@@ -27,6 +35,7 @@ interface Props {
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>
   setAuthNavigation?: React.Dispatch<React.SetStateAction<AuthenticationNavigation>>
   setModalAction: React.Dispatch<React.SetStateAction<ModalAction>>
+  setAlert?: React.Dispatch<React.SetStateAction<IAlert>>
 }
 
 interface IFormInputs {
@@ -35,7 +44,7 @@ interface IFormInputs {
 }
 
 const Login = (props: Props): JSX.Element => {
-  const { setHideLoginWithGoogle, isLoading, setIsLoading, setAuthNavigation, setModalAction } = props
+  const { setHideLoginWithGoogle, isLoading, setIsLoading, setAuthNavigation, setModalAction, setAlert } = props
   const [, setToken] = useLocalStorage('token', '')
 
   const { setCurrentUser } = useCurrentUser()
@@ -50,7 +59,7 @@ const Login = (props: Props): JSX.Element => {
   }
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
-    defaultValues: { email: 'gabriel@gmail.com', password: '123okAsd@' },
+    defaultValues: { email: 'carlopez@gmail.com', password: '123okAsd@' },
     resolver: yupResolver(schema),
     mode: 'onChange'
   })
@@ -62,15 +71,17 @@ const Login = (props: Props): JSX.Element => {
     post<IFormInputs, Data>('/auth/login', data)
       .then(data => {
         const { user, token } = data.data.response
-        setHideLoginWithGoogle?.(false)
-        setIsLoading?.(false)
         setCurrentUser(user)
         setToken(token)
-        setModalAction('close')
         navigate('/trivia-game-settings')
       })
-      .catch(error => {
-        console.log({ error })
+      .catch(() => {
+        setAlert?.({ message: 'User or password incorrect', show: true, status: 'error' })
+      })
+      .finally(() => {
+        setHideLoginWithGoogle?.(false)
+        setIsLoading?.(false)
+        setModalAction('close')
       })
   }
 

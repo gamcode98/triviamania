@@ -6,20 +6,35 @@ import { Loader } from '../../Loader'
 import { FormControl } from '../../FormElements/FormControl'
 import { ChangePasswordNavigation } from '../../../types'
 import './ChangePassword.css'
+import { patch } from '../../../services/privateApiService'
+import { IAlert } from '../../../interfaces'
 
 const schema = yup.object({
   oldPassword: yup
     .string()
-    .required(),
+    .required()
+    .min(7, 'Too Short!')
+    .max(17, 'Too Long!')
+    .matches(
+      /^(?=.*?[A-ZÀ-Ú])(?=.*?[a-zà-ú])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+      'Must contain at least one upper case letter, one lower case letter, one number and one special character'
+    ),
   newPassword: yup
     .string()
     .required()
+    .min(7, 'Too Short!')
+    .max(17, 'Too Long!')
+    .matches(
+      /^(?=.*?[A-ZÀ-Ú])(?=.*?[a-zà-ú])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+      'Must contain at least one upper case letter, one lower case letter, one number and one special character'
+    )
 }).required()
 
 interface Props {
   isLoading?: boolean
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>
   setOptionsNavigation?: React.Dispatch<React.SetStateAction<ChangePasswordNavigation>>
+  setAlert: React.Dispatch<React.SetStateAction<IAlert>>
 }
 
 interface IFormInputs {
@@ -28,7 +43,7 @@ interface IFormInputs {
 }
 
 const ChangePassword = (props: Props): JSX.Element => {
-  const { isLoading, setIsLoading, setOptionsNavigation } = props
+  const { isLoading, setIsLoading, setOptionsNavigation, setAlert } = props
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
     defaultValues: { oldPassword: '', newPassword: '' },
@@ -37,15 +52,18 @@ const ChangePassword = (props: Props): JSX.Element => {
   })
 
   const onSubmit: SubmitHandler<IFormInputs> = data => {
-    // const { oldPassword, newPassword } = data
     setIsLoading?.(true)
-
-    console.log({ data })
     reset()
-    setTimeout(() => {
-      setIsLoading?.(false)
-      setOptionsNavigation?.('message')
-    }, 3000)
+
+    patch<IFormInputs, unknown>('/users/change-password', data)
+      .then(() => {
+        setIsLoading?.(false)
+        setOptionsNavigation?.('message')
+      })
+      .catch(error => {
+        setIsLoading?.(false)
+        setAlert({ status: 'error', message: error.response.data.message, show: true })
+      })
   }
 
   return (

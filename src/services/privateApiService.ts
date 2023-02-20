@@ -1,11 +1,21 @@
 import { AxiosResponse } from 'axios'
 import { backendApi, getHeaders, handleError, handleResponse } from '.'
 
-type Url = '/results/save-result' | '/results/?limit=10&offset=0'
+type Url =
+  '/results/save-result' |
+  '/results/?limit=10&offset=0' |
+  '/users/change-password'
 
 const post = async <T, U>(url: Url, data: T): Promise<AxiosResponse<U>> => {
   return await
   backendApi.post(url, data, getHeaders())
+    .then(handleResponse)
+    .catch(handleError)
+}
+
+const patch = async <T, U>(url: Url, data: T): Promise<AxiosResponse<U>> => {
+  return await
+  backendApi.patch(url, data, getHeaders())
     .then(handleResponse)
     .catch(handleError)
 }
@@ -17,4 +27,4 @@ const get = async <T>(url: string): Promise<AxiosResponse<T>> => {
     .catch(handleError)
 }
 
-export { post, get }
+export { post, patch, get }

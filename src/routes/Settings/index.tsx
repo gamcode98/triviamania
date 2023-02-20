@@ -5,11 +5,18 @@ import { SectionToChangePassword } from '../../components/ContentToChangePasswor
 import useCurrentUser from '../../hooks/useCurrentUser'
 import { ModalAction } from '../../types'
 import './Settings.css'
+import { IAlert } from '../../interfaces'
+import { Alert } from '../../components/Alert'
 
 const Settings = (): JSX.Element => {
   const { currentUser } = useCurrentUser()
   const [modalActionToDeleteAccount, setModalActionToDeleteAccount] = useState<ModalAction>(null)
   const [modalActionToChangePassword, setModalActionToChangePassword] = useState<ModalAction>(null)
+  const [alert, setAlert] = useState<IAlert>({
+    show: false,
+    status: 'success',
+    message: ''
+  })
 
   const handleOpenModalToChangePassword = (): void => {
     setModalActionToChangePassword('open')
@@ -41,11 +48,18 @@ const Settings = (): JSX.Element => {
         </div>
       </div>
       <Modal modalAction={modalActionToChangePassword}>
-        <SectionToChangePassword setModalActionToChangePassword={setModalActionToChangePassword} />
+        <SectionToChangePassword
+          setModalActionToChangePassword={setModalActionToChangePassword}
+          setAlert={setAlert}
+        />
       </Modal>
       <Modal modalAction={modalActionToDeleteAccount}>
         <DeleteAccount setModalActionToDeleteAccount={setModalActionToDeleteAccount} />
       </Modal>
+      <Alert
+        alert={alert}
+        setAlert={setAlert}
+      />
     </div>
   )
 }

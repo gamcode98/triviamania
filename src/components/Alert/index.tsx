@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 import { IAlert } from '../../interfaces'
-// import checkedIcon from './../assets/checked.svg'
-// import failIcon from './../assets/fail.svg'
 import './Alert.css'
 
 interface Props {
@@ -22,22 +20,16 @@ const Alert = (props: Props): JSX.Element => {
     }
   }, [alert.show, setAlert])
 
-  // const icons = {
-  //   success: checkedIcon,
-  //   error: failIcon
-  // }
-
   const background = {
     success: 'is-success',
     error: 'is-error'
   }
 
   return (
-    <div className={`nes-badge alert ${alert.show ? 'block' : 'hidden'}`}>
-      {/* <img src={icons[alert.status]} width={20} /> */}
-      <span className={`${background[alert.status]}`}>
+    <div className={`alert ${alert.show ? 'block' : 'hidden'}`}>
+      <div className={`${background[alert.status]}`}>
         <span>{alert.message}</span>
-      </span>
+      </div>
     </div>
   )
 }

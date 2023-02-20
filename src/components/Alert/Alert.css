@@ -2,9 +2,8 @@
   position: fixed;
   bottom: 1rem;
   left: 1rem;  
-  display: block;
-  min-width: 300px;  
-  max-width: 500px;
+  display: block;  
+  color: var(--white);
 }
 
 .block {
@@ -13,4 +12,24 @@
 
 .hidden {
   display: none;
+}
+
+.alert .is-error {
+  padding: .3rem;
+  background-color: var(--red);
+  box-shadow: 
+  0 0.5em var(--red),
+  0 -0.5em var(--red),
+  0.5em 0 var(--red),
+  -0.5em 0 var(--red);
+}
+
+.alert .is-success {
+  padding: .3rem;
+  background-color: var(--green);
+  box-shadow:
+    0 0.5em var(--green),
+    0 -0.5em var(--green),
+    0.5em 0 var(--green),
+    -0.5em 0 var(--green);
 }

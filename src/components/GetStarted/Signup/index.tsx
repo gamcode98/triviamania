@@ -13,10 +13,17 @@ import './Signup.css'
 const schema = yup.object({
   email: yup
     .string()
-    .required(),
+    .required()
+    .matches(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, 'Must be a valid email address'),
   password: yup
     .string()
+    .min(7, 'Too Short!')
+    .max(17, 'Too Long!')
     .required()
+    .matches(
+      /^(?=.*?[A-ZÀ-Ú])(?=.*?[a-zà-ú])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+      'Must contain at least one upper case letter, one lower case letter, one number and one special character'
+    )
 }).required()
 
 interface Props {

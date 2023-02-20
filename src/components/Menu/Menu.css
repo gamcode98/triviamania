@@ -1,0 +1,23 @@
+.menu-container {
+  position: relative;
+}
+
+.user-container {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+.user-img {
+  width: 30px;
+}
+
+.arrow-img-rotate-down {
+  width: 15px;
+  transform: rotate(90deg);
+}
+
+.arrow-img-rotate-up {
+  width: 15px;
+  transform: rotate(270deg);
+}

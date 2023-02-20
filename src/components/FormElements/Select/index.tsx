@@ -15,7 +15,6 @@ const Select = (props: Props): JSX.Element => {
   const [showHelp, setShowHelp] = useState<boolean>(false)
 
   const handleShowHelp = (): void => {
-    console.log('jiii')
     setShowHelp(true)
     setTimeout(() => setShowHelp(false), 5000)
   }

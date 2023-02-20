@@ -1,0 +1,9 @@
+.loader-dancing-container .loader-dancing {
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
+
+.loader-dancing-container .title {
+  text-align: center;
+}

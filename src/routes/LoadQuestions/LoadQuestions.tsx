@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-closing-tag-location */
 import { useState } from 'react'
-import { PlayForm } from '../../components/PlayForm/PlayForm'
+import { PlayForm } from '../../components/PlayForm'
 import { Progress } from '../../components/Progress'
 import './LoadQuestions.css'
 

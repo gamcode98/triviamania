@@ -54,7 +54,10 @@ const Settings = (): JSX.Element => {
         />
       </Modal>
       <Modal modalAction={modalActionToDeleteAccount}>
-        <DeleteAccount setModalActionToDeleteAccount={setModalActionToDeleteAccount} />
+        <DeleteAccount
+          setModalActionToDeleteAccount={setModalActionToDeleteAccount}
+          setAlert={setAlert}
+        />
       </Modal>
       <Alert
         alert={alert}

@@ -5,13 +5,24 @@ import { ResetPasswordForm } from '../../components/ContentToResetPassword/Reset
 import './ResetPassword.css'
 import { Message } from '../../components/ContentToResetPassword/Message'
 import { ResetPasswordNavigation } from '../../types'
+import { Alert } from '../../components/Alert'
+import { IAlert } from '../../interfaces'
 
 const ResetPassword = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [resetPasswordNavigation, setResetPasswordNavigation] = useState<ResetPasswordNavigation>('resetPasswordForm')
+  const [alert, setAlert] = useState<IAlert>({
+    status: 'success',
+    show: false,
+    message: ''
+  })
 
   const content = {
-    resetPasswordForm: <ResetPasswordForm setIsLoading={setIsLoading} setResetPasswordNavigation={setResetPasswordNavigation} />,
+    resetPasswordForm: <ResetPasswordForm
+      setIsLoading={setIsLoading}
+      setResetPasswordNavigation={setResetPasswordNavigation}
+      setAlert={setAlert}
+                       />,
     message: <Message />
 
   }
@@ -27,7 +38,9 @@ const ResetPassword = (): JSX.Element => {
           <ResetPasswordForm
             setIsLoading={setIsLoading}
             setResetPasswordNavigation={setResetPasswordNavigation}
+            setAlert={setAlert}
           />}
+      <Alert alert={alert} setAlert={setAlert} />
     </div>
   )
 }

@@ -1,12 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Control, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
 import * as yup from 'yup'
+import { IAlert } from '../../../interfaces'
+import { post } from '../../../services/publicApiService'
 import { ResetPasswordNavigation } from '../../../types'
 import { FormControl } from '../../FormElements/FormControl'
 
 interface IFormInputs {
   newPassword: string
   confirmPassword: string
+}
+
+interface Data extends Pick<IFormInputs, 'newPassword'> {
+  token: string
 }
 
 const schema = yup.object().shape({
@@ -32,10 +39,14 @@ const schema = yup.object().shape({
 interface Props {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
   setResetPasswordNavigation: React.Dispatch<React.SetStateAction<ResetPasswordNavigation>>
+  setAlert: React.Dispatch<React.SetStateAction<IAlert>>
 }
 
 const ResetPasswordForm = (props: Props): JSX.Element => {
-  const { setIsLoading, setResetPasswordNavigation } = props
+  const { setIsLoading, setResetPasswordNavigation, setAlert } = props
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const token = searchParams.get('token')
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
     defaultValues: { newPassword: '', confirmPassword: '' },
@@ -44,23 +55,25 @@ const ResetPasswordForm = (props: Props): JSX.Element => {
   })
 
   const onSubmit: SubmitHandler<IFormInputs> = data => {
+    const { newPassword } = data
     reset()
     setIsLoading(true)
-    // post<IFormInputs, unknown>('/auth/recovery', data)
-    //   .then(data => {
-    //     console.log({ data })
-    //     setEmail({ emailSent: true, emailAddress: email })
-    //   }).catch(error => {
-    //     console.log({ error })
-    //     setAlert?.({ status: 'error', show: true, message: 'Something went wrong' })
-    //   })
-    //   .finally(() => {
-    //     setIsLoading?.(false)
-    //   })
-    setResetPasswordNavigation('message')
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 4000)
+    if (token !== null) {
+      post<Data, unknown>('/auth/change-password', { newPassword, token })
+        .then(data => {
+          console.log({ data })
+          setResetPasswordNavigation('message')
+        }).catch(error => {
+          console.log({ error })
+          setAlert({ status: 'error', show: true, message: 'Something went wrong' })
+        })
+        .finally(() => {
+          setIsLoading?.(false)
+          setIsLoading(false)
+        })
+    } else {
+      setAlert({ status: 'error', show: true, message: 'Unauthorized' })
+    }
   }
 
   return (

@@ -10,7 +10,7 @@ import { Settings } from './routes/Settings'
 function App (): JSX.Element {
   return (
     <Routes>
-      <Route path='/reset-password' element={<ResetPassword />} />
+      <Route path='/recovery' element={<ResetPassword />} />
       <Route path='/' element={<Navigation />}>
         <Route path='/' element={<Home />} />
         <Route path='/trivia-game-settings' element={<LoadQuestions />} />

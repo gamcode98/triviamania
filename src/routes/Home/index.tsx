@@ -4,7 +4,7 @@ import { GetStarted } from '../../components/GetStarted/GetStarted'
 import { Modal } from '../../components/Modal'
 import { IAlert } from '../../interfaces'
 import { ModalAction } from '../../types/ModalAction'
-import { heroImg } from './../../components/Images'
+import { heroImg } from '../../components/Images'
 import './Home.css'
 
 const Home = (): JSX.Element => {

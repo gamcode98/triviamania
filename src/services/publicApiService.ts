@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 import { backendApi, triviaApi, handleError, handleResponse } from '.'
 import { IQuestionsData, ISettings } from '../interfaces'
 
-type AuthUrl = '/auth/login' | '/auth/register'
+type AuthUrl = '/auth/login' | '/auth/register' | '/auth/recovery'
 
 const post = async <T, U>(url: AuthUrl, data: T): Promise<AxiosResponse<U>> => {
   return await

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { LoaderDancing } from '../../components/LoaderDancing'
 import { Content, Data } from '../../dto/result.dto'
 import { get } from '../../services/privateApiService'
+import { categories } from '../../utils'
 import './Score.css'
 
 interface Url {
@@ -45,6 +46,11 @@ const Score = (): JSX.Element => {
       .finally(() => {
         setIsLoading(false)
       })
+  }
+
+  const getCategory = (value: string): string | undefined => {
+    const foundCategory = categories.find(category => category.value === value)
+    return foundCategory?.label
   }
 
   const handlePreviousResults = (): void => {
@@ -91,7 +97,7 @@ const Score = (): JSX.Element => {
                       <div className='lists'>
                         <ul className='nes-list is-disc'>
                           {result.categories.map((category, index) => (
-                            <li key={index}>{category}</li>
+                            <li key={index}>{getCategory(category)}</li>
                           ))}
                         </ul>
                       </div>

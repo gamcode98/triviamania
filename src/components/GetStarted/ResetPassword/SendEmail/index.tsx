@@ -6,6 +6,8 @@ import { FormControl } from '../../../FormElements/FormControl'
 import { AuthenticationNavigation } from '../../../../types'
 import { Loader } from '../../../Loader'
 import './SendEmail.css'
+import { post } from '../../../../services/publicApiService'
+import { IAlert } from '../../../../interfaces'
 
 interface Email {
   emailSent: boolean
@@ -16,6 +18,7 @@ const schema = yup.object({
   email: yup
     .string()
     .required()
+    .matches(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, 'Must be a valid email address')
 }).required()
 
 interface IFormInputs {
@@ -28,10 +31,11 @@ interface Props {
   setAuthNavigation?: React.Dispatch<React.SetStateAction<AuthenticationNavigation>>
   isLoading?: boolean
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>
+  setAlert?: React.Dispatch<React.SetStateAction<IAlert>>
 }
 
 const SendEmail = (props: Props): JSX.Element => {
-  const { setHideLoginWithGoogle, setEmail, setAuthNavigation, isLoading, setIsLoading } = props
+  const { setHideLoginWithGoogle, setEmail, setAuthNavigation, isLoading, setIsLoading, setAlert } = props
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
     defaultValues: { email: '' },
@@ -43,10 +47,17 @@ const SendEmail = (props: Props): JSX.Element => {
     const { email } = data
     reset()
     setIsLoading?.(true)
-    setTimeout(() => {
-      setEmail({ emailSent: true, emailAddress: email })
-      setIsLoading?.(false)
-    }, 3000)
+    post<IFormInputs, unknown>('/auth/recovery', data)
+      .then(data => {
+        console.log({ data })
+        setEmail({ emailSent: true, emailAddress: email })
+      }).catch(error => {
+        console.log({ error })
+        setAlert?.({ status: 'error', show: true, message: 'Something went wrong' })
+      })
+      .finally(() => {
+        setIsLoading?.(false)
+      })
   }
 
   const goBackToLogin = (): void => {

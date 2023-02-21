@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-indent */
 import { useState } from 'react'
+import { IAlert } from '../../../interfaces'
 import { AuthenticationNavigation } from '../../../types'
 import { EmailMessage } from './EmailMessage'
 import { SendEmail } from './SendEmail'
@@ -14,10 +15,11 @@ interface Props {
   setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>
   setHideLoginWithGoogle?: React.Dispatch<React.SetStateAction<boolean>>
   setAuthNavigation?: React.Dispatch<React.SetStateAction<AuthenticationNavigation>>
+  setAlert?: React.Dispatch<React.SetStateAction<IAlert>>
 }
 
 const ResetPassword = (props: Props): JSX.Element => {
-  const { isLoading, setIsLoading, setHideLoginWithGoogle, setAuthNavigation } = props
+  const { isLoading, setIsLoading, setHideLoginWithGoogle, setAuthNavigation, setAlert } = props
 
   const [email, setEmail] = useState<Email>({
     emailSent: false,
@@ -37,6 +39,7 @@ const ResetPassword = (props: Props): JSX.Element => {
           setAuthNavigation={setAuthNavigation}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          setAlert={setAlert}
         />
   )
 }

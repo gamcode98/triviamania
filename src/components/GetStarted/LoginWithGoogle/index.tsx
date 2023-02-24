@@ -1,16 +1,15 @@
+import { backendUrl } from '../../../services'
 import './LoginWithGoogle.css'
 
-interface Props {
-  isLoading: boolean
-}
-
-const LoginWithGoogle = (props: Props): JSX.Element => {
-  const { isLoading } = props
+const LoginWithGoogle = (): JSX.Element => {
   return (
-    <button className='login-with-google-btn nes-btn'>
+    <a
+      className='login-with-google-btn nes-btn'
+      href={`${backendUrl}/auth/google`}
+    >
       <i className='nes-icon google is-small' />
       <span>Login with Google</span>
-    </button>
+    </a>
   )
 }
 

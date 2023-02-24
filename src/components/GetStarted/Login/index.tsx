@@ -8,10 +8,9 @@ import { AuthenticationNavigation, ModalAction } from '../../../types'
 import useCurrentUser from '../../../hooks/useCurrentUser'
 import { Loader } from '../../Loader'
 import { post } from '../../../services/publicApiService'
-import { useLocalStorage } from '../../../hooks/useLocalStorage'
 import { Data } from '../../../dto/login.dto'
-import './Login.css'
 import { IAlert } from '../../../interfaces'
+import './Login.css'
 
 const schema = yup.object({
   email: yup
@@ -45,7 +44,6 @@ interface IFormInputs {
 
 const Login = (props: Props): JSX.Element => {
   const { setHideLoginWithGoogle, isLoading, setIsLoading, setAuthNavigation, setModalAction, setAlert } = props
-  const [, setToken] = useLocalStorage('token', '')
 
   const { setCurrentUser } = useCurrentUser()
 
@@ -59,7 +57,7 @@ const Login = (props: Props): JSX.Element => {
   }
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
-    defaultValues: { email: 'carlopez@gmail.com', password: '123okAsd@' },
+    defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
     mode: 'onChange'
   })
@@ -69,10 +67,9 @@ const Login = (props: Props): JSX.Element => {
     setHideLoginWithGoogle?.(true)
     reset()
     post<IFormInputs, Data>('/auth/login', data)
-      .then(data => {
-        const { user, token } = data.data.response
+      .then(({ data }) => {
+        const { user } = data.response
         setCurrentUser(user)
-        setToken(token)
         navigate('/trivia-game-settings')
       })
       .catch(() => {

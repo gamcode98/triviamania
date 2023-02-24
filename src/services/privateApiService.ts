@@ -1,36 +1,37 @@
 import { AxiosResponse } from 'axios'
-import { backendApi, getHeaders, handleError, handleResponse } from '.'
+import { backendApi, handleError, handleResponse } from '.'
 
 type Url =
   '/results/save-result' |
   '/results/?limit=10&offset=0' |
   '/users/change-password' |
-  '/users'
+  '/users' |
+  '/auth/validate'
 
 const post = async <T, U>(url: Url, data: T): Promise<AxiosResponse<U>> => {
   return await
-  backendApi.post(url, data, getHeaders())
+  backendApi.post(url, data, { withCredentials: true })
     .then(handleResponse)
     .catch(handleError)
 }
 
 const patch = async <T, U>(url: Url, data: T): Promise<AxiosResponse<U>> => {
   return await
-  backendApi.patch(url, data, getHeaders())
+  backendApi.patch(url, data, { withCredentials: true })
     .then(handleResponse)
     .catch(handleError)
 }
 
-const get = async <T>(url: string): Promise<AxiosResponse<T>> => {
+const get = async <T>(url: string | Url): Promise<AxiosResponse<T>> => {
   return await
-  backendApi.get(url, getHeaders())
+  backendApi.get(url, { withCredentials: true })
     .then(handleResponse)
     .catch(handleError)
 }
 
 const remove = async <T>(url: Url): Promise<AxiosResponse<T>> => {
   return await
-  backendApi.delete(url, getHeaders())
+  backendApi.delete(url, { withCredentials: true })
     .then(handleResponse)
     .catch(handleError)
 }

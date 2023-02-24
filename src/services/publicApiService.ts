@@ -2,11 +2,14 @@ import { AxiosResponse } from 'axios'
 import { backendApi, triviaApi, handleError, handleResponse } from '.'
 import { IQuestionsData, ISettings } from '../interfaces'
 
-type AuthUrl = '/auth/login' | '/auth/register' | '/auth/recovery' | '/auth/change-password'
+type AuthUrl = '/auth/login'
+| '/auth/register' |
+'/auth/recovery' |
+'/auth/change-password'
 
 const post = async <T, U>(url: AuthUrl, data: T): Promise<AxiosResponse<U>> => {
   return await
-  backendApi.post(url, data)
+  backendApi.post(url, data, { withCredentials: true })
     .then(handleResponse)
     .catch(handleError)
 }

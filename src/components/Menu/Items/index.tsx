@@ -6,6 +6,7 @@ import {
   settingsImg
 } from '../../../components/Images'
 import useCurrentUser from '../../../hooks/useCurrentUser'
+import { get } from '../../../services/privateApiService'
 import './Items.css'
 
 interface Props {
@@ -21,9 +22,15 @@ const Items = (props: Props): JSX.Element => {
   const navigate = useNavigate()
 
   const handleLogout = (): void => {
-    setCurrentUser(null)
-    setMenuIsVisible(false)
-    navigate('/')
+    get('/auth/logout')
+      .then(() => {
+        setCurrentUser(null)
+        setMenuIsVisible(false)
+        navigate('/')
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const handleNavigateToSettings = (): void => {

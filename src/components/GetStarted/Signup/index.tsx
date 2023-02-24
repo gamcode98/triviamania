@@ -46,7 +46,7 @@ const Signup = (props: Props): JSX.Element => {
   const changeToLogin = (): void => setAuthNavigation?.('login')
 
   const { handleSubmit, control, reset } = useForm<IFormInputs>({
-    defaultValues: { email: '', password: '123okAsd@' },
+    defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
     mode: 'onChange'
   })

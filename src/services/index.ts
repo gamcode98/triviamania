@@ -53,5 +53,6 @@ export {
   handleError,
   handleResponse,
   backendApi,
-  triviaApi
+  triviaApi,
+  backendUrl
 }

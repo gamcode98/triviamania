@@ -46,7 +46,7 @@ const GetStarted = (props: Props): JSX.Element => {
       >
         <i className='nes-icon close is-small' />
       </button>
-      {!hideLoginWithGoogle && <LoginWithGoogle isLoading={isLoading} />}
+      {!hideLoginWithGoogle && <LoginWithGoogle />}
       <Wrapper
         isLoading={isLoading}
         setIsLoading={setIsLoading}
